@@ -1,0 +1,18 @@
+2017-11-06
+==========
+
+...
+
+Zofffix gave me access to <perl6advent.wordpress.com>, some advice,
+and some code (see p6.p6) which I will use in my on modified code as:
+"p6advent-md2html.p6".
+
+...
+
+github listing of titles and dates:
+
+  https://github.com/perl6/mu/blob/master/misc/perl6advent-2017/schedule
+
+The gist for running p6.p6:
+
+  https://gist.github.com/tbrowder/4d0091ca6ef87863e43e4b32fce640a7
