@@ -7,7 +7,7 @@ my $str = get-html($gist-url);
 
 my $fil = 'advent.html';
 spurt $fil, $str;
-say "See output file '$fil';
+say "See output file '$fil'";
 
 sub get-html($gist-url) {
     return LWP::Simple.get($gist-url)
