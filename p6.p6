@@ -1,8 +1,10 @@
 #!/usr/bin/env perl6
 use LWP::Simple;
 
-sub MAIN ($gist-url) {
-    put LWP::Simple.get($gist-url)
+my $url = "https://github.com/tbrowder/Perl6-Advent/blob/master/p6advent-2017-12-04.md";
+
+sub MAIN ($url) {
+    put LWP::Simple.get($url)
         .comb(/'<article' <-[>]>+ '>' <(.+?)> '</article>'/)
         .subst(:g, 'class="pl-c"',   'style="color: #999;"')
         .subst(:g, 'class="pl-c1"',  'style="color: #449;"')

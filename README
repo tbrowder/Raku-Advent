@@ -16,3 +16,14 @@ github listing of titles and dates:
 The gist for running p6.p6:
 
   https://gist.github.com/tbrowder/4d0091ca6ef87863e43e4b32fce640a7
+
+2017-12-00
+==========
+
+Zoffix's new advent highlighter:
+
+  https://github.com/zoffixznet/perl6-Acme-Advent-Highlighter
+
+my "perl6-advent" token: 08b1d30fe69a4c050fecd3374458f9d0298eacd8
+
+export ACME_ADVENT_HIGHLIGHTER_TOKEN=08b1d30fe69a4c050fecd3374458f9d0298eacd8
