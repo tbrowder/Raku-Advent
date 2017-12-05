@@ -26,4 +26,4 @@ Zoffix's new advent highlighter:
 
 my "perl6-advent" token: 08b1d30fe69a4c050fecd3374458f9d0298eacd8
 
-export ACME_ADVENT_HIGHLIGHTER_TOKEN=08b1d30fe69a4c050fecd3374458f9d0298eacd8
+use ACME_ADVENT_HIGHLIGHTER_TOKEN=
