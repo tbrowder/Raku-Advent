@@ -14,4 +14,4 @@ fi
 
 CMD=advent-highligher.p6
 
-$CMD $1
+$CMD --wrap --multi $1
