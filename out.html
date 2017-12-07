@@ -1,0 +1,293 @@
+    <h1 id="adventuresinnqpland:hackingtherakudocompiler8december">Adventures in NQP Land: Hacking the Rakudo Compiler (8 December)</h1>
+
+<p>With apologies to the old Christmas classic, &quot;The Twelve Days of Christmas,&quot; I give you the first line of a Perl 6 version:</p>
+
+<p><em>On the first day of Christmas, my true love gave to me, a Perl table  in a pod tree...</em></p>
+
+<p>But the table I got wasn&#39;t very pretty!</p>
+
+<h1 id="background">Background</h1>
+
+<p>My first real contact with Perl 6 came in the spring of 2015 when I decided to check on its status and found it was ready for prime time. After getting some experience with the language I started contributing to the docs in places where I could help. One of my first contributions to the docs was to clean up one of the tables which was not rendering nicely .  During my experiments with pod tables on my local host I tried the following table:</p>
+
+<pre id="advent-code-9f8151b8-3cd4-4879-896e-688c479977cc" style="border: 1px dotted #ddd; background: none; border-radius: 3px; padding: 10px;"><table class="highlight tab-size js-file-line-container" data-tab-size="8" style="background: none; padding: 0; margin: 0">
+      <tr style="background: none; padding: 0; margin: 0">
+        <td class="blob-num js-line-number" data-line-number="1" id="file-9f8151b8-3cd4-4879-896e-688c479977cc-p6-L1" style="border: 0; padding: 0; background: none"></td>
+        <td class="blob-code blob-code-inner js-file-line" id="file-9f8151b8-3cd4-4879-896e-688c479977cc-p6-LC1" style="border: 0; padding: 0; background: none"><span class="pl-k" style="color: #d73a49">=</span><span class="pl-k" style="color: #d73a49">begin</span> <span class="pl-e" style="color: #6f42c1">table</span><span class="pl-c" style="color: #6a737d"></span></td>
+      </tr>
+      <tr style="background: none; padding: 0; margin: 0">
+        <td class="blob-num js-line-number" data-line-number="2" id="file-9f8151b8-3cd4-4879-896e-688c479977cc-p6-L2" style="border: 0; padding: 0; background: none"></td>
+        <td class="blob-code blob-code-inner js-file-line" id="file-9f8151b8-3cd4-4879-896e-688c479977cc-p6-LC2" style="border: 0; padding: 0; background: none"><span class="pl-c" style="color: #6a737d">-r0c0  r0c1</span></td>
+      </tr>
+      <tr style="background: none; padding: 0; margin: 0">
+        <td class="blob-num js-line-number" data-line-number="3" id="file-9f8151b8-3cd4-4879-896e-688c479977cc-p6-L3" style="border: 0; padding: 0; background: none"></td>
+        <td class="blob-code blob-code-inner js-file-line" id="file-9f8151b8-3cd4-4879-896e-688c479977cc-p6-LC3" style="border: 0; padding: 0; background: none"><span class="pl-c" style="color: #6a737d"></span><span class="pl-k" style="color: #d73a49">=</span><span class="pl-k" style="color: #d73a49">end</span> <span class="pl-e" style="color: #6f42c1">table</span></td>
+      </tr>
+</table></pre>
+
+<p>which caused Perl 6 to throw an ugly, LTA (less than awesome) exception message:</p>
+
+<pre id="advent-code-ae2547fb-988f-4db5-bf6d-ba74b07e3c4f" style="border: 1px dotted #ddd; background: none; border-radius: 3px; padding: 10px;"><table class="highlight tab-size js-file-line-container" data-tab-size="8" style="background: none; padding: 0; margin: 0">
+      <tr style="background: none; padding: 0; margin: 0">
+        <td class="blob-num js-line-number" data-line-number="1" id="file-ae2547fb-988f-4db5-bf6d-ba74b07e3c4f-p6-L1" style="border: 0; padding: 0; background: none"></td>
+        <td class="blob-code blob-code-inner js-file-line" id="file-ae2547fb-988f-4db5-bf6d-ba74b07e3c4f-p6-LC1" style="border: 0; padding: 0; background: none"><span class="pl-s" style="color: #032f62"><span class="pl-pds" style="color: #032f62">&quot;</span>===SORRY!=== Cannot iterate object with P6opaque representation<span class="pl-pds" style="color: #032f62">&quot;</span></span></td>
+      </tr>
+</table></pre>
+
+<p>I worked around the problem but it nagged at me so I started investigating the guts of pod and tables.  That led me to the source of the problem in <a href="https://github.com/rakudo/rakudo/blob/master/src/Perl6/Pod.nqp">github.com/rakudo/src/Perl6/Pod.nqp</a>.</p>
+
+<p>In fact, the real problem for many pod table issues turned out to be in that file.</p>
+
+<h1 id="notquiteperlnqp">Not Quite Perl (NQP)</h1>
+
+<p><em>nqp</em> is an intermediate language  used to build the Rakudo Perl 6 compiler. Its repository is found  <a href="https://github.com/perl6/nqp">here</a>. The rest of this article is  about modifying nqp code in the rakudo compiler found in its  repository <a href="https://github.com/rakudo/rakudo">here</a>.  Rakudo also has  a website <a href="http://rakudo.org/">here</a>.</p>
+
+<p>Before getting too far I first read the available information about Rakudo and NQP here:</p>
+
+<ul>
+<li>Slides from Jonathan Worthington&#39;s (JWs) course on <a href="http://edumentab.github.io/rakudo-and-nqp-internals-course/">Rakudo and NQP Internals</a></li>
+<li><a href="https://github.com/perl6/nqp/blob/master/docs/ops.markdown">NQP opcodes</a></li>
+<li><a href="https://github.com/perl6/nqp/blob/master/docs/built-ins.md">NQP built-in routines</a></li>
+</ul>
+
+<p>Then I started practicing <em>nqp</em> coding by writing and running small <em>nqp</em> files like this (file &quot;hello.nqp&quot;):</p>
+
+<pre id="advent-code-ff8d073b-6130-45eb-9e1d-77e5b6eeb164" style="border: 1px dotted #ddd; background: none; border-radius: 3px; padding: 10px;"><table class="highlight tab-size js-file-line-container" data-tab-size="8" style="background: none; padding: 0; margin: 0">
+      <tr style="background: none; padding: 0; margin: 0">
+        <td class="blob-num js-line-number" data-line-number="1" id="file-ff8d073b-6130-45eb-9e1d-77e5b6eeb164-p6-L1" style="border: 0; padding: 0; background: none"></td>
+        <td class="blob-code blob-code-inner js-file-line" id="file-ff8d073b-6130-45eb-9e1d-77e5b6eeb164-p6-LC1" style="border: 0; padding: 0; background: none"><span class="pl-c1" style="color: #005cc5">say</span>(<span class="pl-s" style="color: #032f62"><span class="pl-pds" style="color: #032f62">&quot;</span>Hello, world!<span class="pl-pds" style="color: #032f62">&quot;</span></span>);</td>
+      </tr>
+</table></pre>
+
+<p>which, when executed, gave the expected results:</p>
+
+<pre id="advent-code-14f85fac-88fd-4187-aa1b-fc1a99386998" style="border: 1px dotted #ddd; background: none; border-radius: 3px; padding: 10px;"><table class="highlight tab-size js-file-line-container" data-tab-size="8" style="background: none; padding: 0; margin: 0">
+      <tr style="background: none; padding: 0; margin: 0">
+        <td class="blob-num js-line-number" data-line-number="1" id="file-14f85fac-88fd-4187-aa1b-fc1a99386998-p6-L1" style="border: 0; padding: 0; background: none"></td>
+        <td class="blob-code blob-code-inner js-file-line" id="file-14f85fac-88fd-4187-aa1b-fc1a99386998-p6-LC1" style="border: 0; padding: 0; background: none"><span class="pl-k" style="color: #d73a49">$</span> <span class="pl-c1" style="color: #005cc5">nqp</span> hello<span class="pl-k" style="color: #d73a49">.</span><span class="pl-c1" style="color: #005cc5">nqp</span></td>
+      </tr>
+      <tr style="background: none; padding: 0; margin: 0">
+        <td class="blob-num js-line-number" data-line-number="2" id="file-14f85fac-88fd-4187-aa1b-fc1a99386998-p6-L2" style="border: 0; padding: 0; background: none"></td>
+        <td class="blob-code blob-code-inner js-file-line" id="file-14f85fac-88fd-4187-aa1b-fc1a99386998-p6-LC2" style="border: 0; padding: 0; background: none">Hello, world<span class="pl-k" style="color: #d73a49">!</span></td>
+      </tr>
+</table></pre>
+
+<p>Note that <code>say()</code> is one of the few <em>nqp</em> opcodes that doesn&#39;t require the <code>nqp::</code> prefix.</p>
+
+<h1 id="intothetrenches">Into the trenches</h1>
+
+<p>The purpose of the <code>Perl6::Pod</code> class, contained in the <code>rakudo/src/Perl6/Pod.nqp</code> file, is to take pod grammar matches and transform them into Perl 6 pod class definitions, in <code>rakudo/src/core/Pod.pm</code>, for further handling by renderers in Perl 6 land.  For tables that means anything represented in any legal pod form as described by the Perl 6 documentation design <em>Synopsis</em> <a href="http://design.perl6.org/S26.html"><em>S26</em></a>, the Perl 6 test suite <a href="https://github.com/perl6/roast"><em>specs</em></a>, and the Perl 6 <a href="https://docs.perl6.org/"><em>docs</em></a> has to be transformed into a Perl 6 <em>Pod::Block::Table</em> class object with this form as described in file <a href="https://github.com/rakudo/rakudo/blob/master/src/core/Pod.pm">rakudo/src/core/Pod.pm</a>:</p>
+
+<pre id="advent-code-c571d426-a189-413f-a688-245c77d5c08b" style="border: 1px dotted #ddd; background: none; border-radius: 3px; padding: 10px;"><table class="highlight tab-size js-file-line-container" data-tab-size="8" style="background: none; padding: 0; margin: 0">
+      <tr style="background: none; padding: 0; margin: 0">
+        <td class="blob-num js-line-number" data-line-number="1" id="file-c571d426-a189-413f-a688-245c77d5c08b-p6-L1" style="border: 0; padding: 0; background: none"></td>
+        <td class="blob-code blob-code-inner js-file-line" id="file-c571d426-a189-413f-a688-245c77d5c08b-p6-LC1" style="border: 0; padding: 0; background: none">configuration information</td>
+      </tr>
+      <tr style="background: none; padding: 0; margin: 0">
+        <td class="blob-num js-line-number" data-line-number="2" id="file-c571d426-a189-413f-a688-245c77d5c08b-p6-L2" style="border: 0; padding: 0; background: none"></td>
+        <td class="blob-code blob-code-inner js-file-line" id="file-c571d426-a189-413f-a688-245c77d5c08b-p6-LC2" style="border: 0; padding: 0; background: none">a header line <span class="pl-k" style="color: #d73a49">with</span> N cells</td>
+      </tr>
+      <tr style="background: none; padding: 0; margin: 0">
+        <td class="blob-num js-line-number" data-line-number="3" id="file-c571d426-a189-413f-a688-245c77d5c08b-p6-L3" style="border: 0; padding: 0; background: none"></td>
+        <td class="blob-code blob-code-inner js-file-line" id="file-c571d426-a189-413f-a688-245c77d5c08b-p6-LC3" style="border: 0; padding: 0; background: none">M content <span class="pl-c1" style="color: #005cc5">lines</span>, <span class="pl-c1" style="color: #005cc5">each</span> <span class="pl-k" style="color: #d73a49">with</span> N cells</td>
+      </tr>
+</table></pre>
+
+<p>I wanted the <em>nqp</em> table pod handling to be robust and able to automatically fix some format issues (with a warning to the author) or throw an exception (gracefully) with detailed information of problems to enable the author to fix the pod input.</p>
+
+<h1 id="workspaceandtools">Workspace and tools</h1>
+
+<p>I needed two cloned repositories: rakudo and roast. I also needed forks of those same repositories on <em>github</em> so I could create pull requests (PRs) for my changes. I found a very handy Perl 5 tool in CPAN module <a href="https://metacpan.org/pod/distribution/App-GitGot/bin/got">App::GitGot</a>. Using <em>got</em> allowed me to easily set up all four repos. (Note that <em>got</em> requires that its target repo <em>not</em> exist either in the desired local directory or the user&#39;s <em>github</em> account.) After configuring <em>got</em> I went to a suitable directory to contain both repos and executed the following:</p>
+
+<pre id="advent-code-cd203755-1d98-4d87-b4d9-a14d110ae6d6" style="border: 1px dotted #ddd; background: none; border-radius: 3px; padding: 10px;"><table class="highlight tab-size js-file-line-container" data-tab-size="8" style="background: none; padding: 0; margin: 0">
+      <tr style="background: none; padding: 0; margin: 0">
+        <td class="blob-num js-line-number" data-line-number="1" id="file-cd203755-1d98-4d87-b4d9-a14d110ae6d6-p6-L1" style="border: 0; padding: 0; background: none"></td>
+        <td class="blob-code blob-code-inner js-file-line" id="file-cd203755-1d98-4d87-b4d9-a14d110ae6d6-p6-LC1" style="border: 0; padding: 0; background: none">got <span class="pl-c1" style="color: #005cc5">fork</span> https<span class="pl-k" style="color: #d73a49">:</span><span class="pl-k" style="color: #d73a49">//</span>github<span class="pl-k" style="color: #d73a49">.</span>com<span class="pl-k" style="color: #d73a49">/</span>rakudo<span class="pl-k" style="color: #d73a49">/</span>rakudo<span class="pl-k" style="color: #d73a49">.</span>git</td>
+      </tr>
+      <tr style="background: none; padding: 0; margin: 0">
+        <td class="blob-num js-line-number" data-line-number="2" id="file-cd203755-1d98-4d87-b4d9-a14d110ae6d6-p6-L2" style="border: 0; padding: 0; background: none"></td>
+        <td class="blob-code blob-code-inner js-file-line" id="file-cd203755-1d98-4d87-b4d9-a14d110ae6d6-p6-LC2" style="border: 0; padding: 0; background: none">got <span class="pl-c1" style="color: #005cc5">fork</span> https<span class="pl-k" style="color: #d73a49">:</span><span class="pl-k" style="color: #d73a49">//</span>github<span class="pl-k" style="color: #d73a49">.</span>com<span class="pl-k" style="color: #d73a49">/</span>perl6<span class="pl-k" style="color: #d73a49">/</span>roast<span class="pl-k" style="color: #d73a49">.</span>git</td>
+      </tr>
+</table></pre>
+
+<p>which resulted in a subdirectories <em>rakudo</em> and <em>roast</em> containing the cloned repos and new forks of rakudo and roast on my github account. In the rakudo directory one can see the default setup for easy creation of PRs:</p>
+
+<pre id="advent-code-7bbafc1c-430e-4be9-967f-450d54059822" style="border: 1px dotted #ddd; background: none; border-radius: 3px; padding: 10px;"><table class="highlight tab-size js-file-line-container" data-tab-size="8" style="background: none; padding: 0; margin: 0">
+      <tr style="background: none; padding: 0; margin: 0">
+        <td class="blob-num js-line-number" data-line-number="1" id="file-7bbafc1c-430e-4be9-967f-450d54059822-p6-L1" style="border: 0; padding: 0; background: none"></td>
+        <td class="blob-code blob-code-inner js-file-line" id="file-7bbafc1c-430e-4be9-967f-450d54059822-p6-LC1" style="border: 0; padding: 0; background: none"><span class="pl-k" style="color: #d73a49">$</span> git remote -v</td>
+      </tr>
+      <tr style="background: none; padding: 0; margin: 0">
+        <td class="blob-num js-line-number" data-line-number="2" id="file-7bbafc1c-430e-4be9-967f-450d54059822-p6-L2" style="border: 0; padding: 0; background: none"></td>
+        <td class="blob-code blob-code-inner js-file-line" id="file-7bbafc1c-430e-4be9-967f-450d54059822-p6-LC2" style="border: 0; padding: 0; background: none">origin  git@github<span class="pl-k" style="color: #d73a49">.</span>com<span class="pl-k" style="color: #d73a49">:</span>tbrowder<span class="pl-k" style="color: #d73a49">/</span>rakudo<span class="pl-k" style="color: #d73a49">.</span>git (fetch)</td>
+      </tr>
+      <tr style="background: none; padding: 0; margin: 0">
+        <td class="blob-num js-line-number" data-line-number="3" id="file-7bbafc1c-430e-4be9-967f-450d54059822-p6-L3" style="border: 0; padding: 0; background: none"></td>
+        <td class="blob-code blob-code-inner js-file-line" id="file-7bbafc1c-430e-4be9-967f-450d54059822-p6-LC3" style="border: 0; padding: 0; background: none">origin  git@github<span class="pl-k" style="color: #d73a49">.</span>com<span class="pl-k" style="color: #d73a49">:</span>tbrowder<span class="pl-k" style="color: #d73a49">/</span>rakudo<span class="pl-k" style="color: #d73a49">.</span>git (<span class="pl-c1" style="color: #005cc5">push</span>)</td>
+      </tr>
+      <tr style="background: none; padding: 0; margin: 0">
+        <td class="blob-num js-line-number" data-line-number="4" id="file-7bbafc1c-430e-4be9-967f-450d54059822-p6-L4" style="border: 0; padding: 0; background: none"></td>
+        <td class="blob-code blob-code-inner js-file-line" id="file-7bbafc1c-430e-4be9-967f-450d54059822-p6-LC4" style="border: 0; padding: 0; background: none">upstream    https<span class="pl-k" style="color: #d73a49">:</span><span class="pl-k" style="color: #d73a49">//</span>github<span class="pl-k" style="color: #d73a49">.</span>com<span class="pl-k" style="color: #d73a49">/</span>rakudo<span class="pl-k" style="color: #d73a49">/</span>rakudo<span class="pl-k" style="color: #d73a49">.</span>git (fetch)</td>
+      </tr>
+      <tr style="background: none; padding: 0; margin: 0">
+        <td class="blob-num js-line-number" data-line-number="5" id="file-7bbafc1c-430e-4be9-967f-450d54059822-p6-L5" style="border: 0; padding: 0; background: none"></td>
+        <td class="blob-code blob-code-inner js-file-line" id="file-7bbafc1c-430e-4be9-967f-450d54059822-p6-LC5" style="border: 0; padding: 0; background: none">upstream    https<span class="pl-k" style="color: #d73a49">:</span><span class="pl-k" style="color: #d73a49">//</span>github<span class="pl-k" style="color: #d73a49">.</span>com<span class="pl-k" style="color: #d73a49">/</span>rakudo<span class="pl-k" style="color: #d73a49">/</span>rakudo<span class="pl-k" style="color: #d73a49">.</span>git (<span class="pl-c1" style="color: #005cc5">push</span>)</td>
+      </tr>
+</table></pre>
+
+<p>There are similar results in the roast repo.</p>
+
+<p>Next, I renamed the roast repo as a subdirectory of rakudo (&quot;rakudo/t/spec&quot;) so it functions as a subgit of the local rakudo.</p>
+
+<p>Finally, I created several bash scripts to ease configuring rakudo for installation in the local repo directory, setting the environment, and running tests:</p>
+
+<ul>
+<li><code>rakudo-local-config.sh</code></li>
+<li><code>run-table-tests.sh</code></li>
+<li><code>set-rakudo-envvars.sh</code></li>
+</ul>
+
+<p>(See all scripts mentioned here at https://github.com/tbrowder/nqp-tools.)</p>
+
+<p>To complete the local working environment you will need to install some local modules so you must change your path and install a local copy of the zef installer.  Follow these steps in your rakudo directory (from advice from <em>@Zoffix</em>):</p>
+
+<pre id="advent-code-25cf7742-6854-491c-ad6a-693e754f14f0" style="border: 1px dotted #ddd; background: none; border-radius: 3px; padding: 10px;"><table class="highlight tab-size js-file-line-container" data-tab-size="8" style="background: none; padding: 0; margin: 0">
+      <tr style="background: none; padding: 0; margin: 0">
+        <td class="blob-num js-line-number" data-line-number="1" id="file-25cf7742-6854-491c-ad6a-693e754f14f0-p6-L1" style="border: 0; padding: 0; background: none"></td>
+        <td class="blob-code blob-code-inner js-file-line" id="file-25cf7742-6854-491c-ad6a-693e754f14f0-p6-LC1" style="border: 0; padding: 0; background: none">git <span class="pl-c1" style="color: #005cc5">clone</span> https<span class="pl-k" style="color: #d73a49">:</span><span class="pl-k" style="color: #d73a49">//</span>github<span class="pl-k" style="color: #d73a49">.</span>com<span class="pl-k" style="color: #d73a49">/</span>ugexe<span class="pl-k" style="color: #d73a49">/</span>zef</td>
+      </tr>
+      <tr style="background: none; padding: 0; margin: 0">
+        <td class="blob-num js-line-number" data-line-number="2" id="file-25cf7742-6854-491c-ad6a-693e754f14f0-p6-L2" style="border: 0; padding: 0; background: none"></td>
+        <td class="blob-code blob-code-inner js-file-line" id="file-25cf7742-6854-491c-ad6a-693e754f14f0-p6-LC2" style="border: 0; padding: 0; background: none"><span class="pl-en" style="color: #6f42c1">export</span> PATH<span class="pl-k" style="color: #d73a49">=</span>`pwd`<span class="pl-k" style="color: #d73a49">/</span>install<span class="pl-k" style="color: #d73a49">/</span>bin<span class="pl-k" style="color: #d73a49">:</span>$PATH</td>
+      </tr>
+      <tr style="background: none; padding: 0; margin: 0">
+        <td class="blob-num js-line-number" data-line-number="3" id="file-25cf7742-6854-491c-ad6a-693e754f14f0-p6-L3" style="border: 0; padding: 0; background: none"></td>
+        <td class="blob-code blob-code-inner js-file-line" id="file-25cf7742-6854-491c-ad6a-693e754f14f0-p6-LC3" style="border: 0; padding: 0; background: none">cd zef; perl6 -Ilib bin<span class="pl-k" style="color: #d73a49">/</span>zef install <span class="pl-k" style="color: #d73a49">.</span></td>
+      </tr>
+      <tr style="background: none; padding: 0; margin: 0">
+        <td class="blob-num js-line-number" data-line-number="4" id="file-25cf7742-6854-491c-ad6a-693e754f14f0-p6-L4" style="border: 0; padding: 0; background: none"></td>
+        <td class="blob-code blob-code-inner js-file-line" id="file-25cf7742-6854-491c-ad6a-693e754f14f0-p6-LC4" style="border: 0; padding: 0; background: none">cd <span class="pl-k" style="color: #d73a49">..</span></td>
+      </tr>
+      <tr style="background: none; padding: 0; margin: 0">
+        <td class="blob-num js-line-number" data-line-number="5" id="file-25cf7742-6854-491c-ad6a-693e754f14f0-p6-L5" style="border: 0; padding: 0; background: none"></td>
+        <td class="blob-code blob-code-inner js-file-line" id="file-25cf7742-6854-491c-ad6a-693e754f14f0-p6-LC5" style="border: 0; padding: 0; background: none"><span class="pl-en" style="color: #6f42c1">export</span> PATH<span class="pl-k" style="color: #d73a49">=</span>`pwd`<span class="pl-k" style="color: #d73a49">/</span>install<span class="pl-k" style="color: #d73a49">/</span>share<span class="pl-k" style="color: #d73a49">/</span>perl6<span class="pl-k" style="color: #d73a49">/</span>site<span class="pl-k" style="color: #d73a49">/</span>bin<span class="pl-k" style="color: #d73a49">:</span>$PATH</td>
+      </tr>
+      <tr style="background: none; padding: 0; margin: 0">
+        <td class="blob-num js-line-number" data-line-number="6" id="file-25cf7742-6854-491c-ad6a-693e754f14f0-p6-L6" style="border: 0; padding: 0; background: none"></td>
+        <td class="blob-code blob-code-inner js-file-line" id="file-25cf7742-6854-491c-ad6a-693e754f14f0-p6-LC6" style="border: 0; padding: 0; background: none">zef install Inline::Perl5</td>
+      </tr>
+</table></pre>
+
+<p>Then install any other module you need, e.g.,</p>
+
+<pre id="advent-code-09110d4c-1f68-45b5-a87a-c33c805b5ea5" style="border: 1px dotted #ddd; background: none; border-radius: 3px; padding: 10px;"><table class="highlight tab-size js-file-line-container" data-tab-size="8" style="background: none; padding: 0; margin: 0">
+      <tr style="background: none; padding: 0; margin: 0">
+        <td class="blob-num js-line-number" data-line-number="1" id="file-09110d4c-1f68-45b5-a87a-c33c805b5ea5-p6-L1" style="border: 0; padding: 0; background: none"></td>
+        <td class="blob-code blob-code-inner js-file-line" id="file-09110d4c-1f68-45b5-a87a-c33c805b5ea5-p6-LC1" style="border: 0; padding: 0; background: none">zef install Debugger::UI::CommandLine</td>
+      </tr>
+      <tr style="background: none; padding: 0; margin: 0">
+        <td class="blob-num js-line-number" data-line-number="2" id="file-09110d4c-1f68-45b5-a87a-c33c805b5ea5-p6-L2" style="border: 0; padding: 0; background: none"></td>
+        <td class="blob-code blob-code-inner js-file-line" id="file-09110d4c-1f68-45b5-a87a-c33c805b5ea5-p6-LC2" style="border: 0; padding: 0; background: none">zef install <span class="pl-c1" style="color: #005cc5">Grammar</span>::Debugger</td>
+      </tr>
+</table></pre>
+
+<h1 id="hacking">Hacking</h1>
+
+<p>Now start hacking away. When ready for a build, execute:</p>
+
+<pre id="advent-code-2bd6e893-2ab1-4f58-9c18-969168ab8171" style="border: 1px dotted #ddd; background: none; border-radius: 3px; padding: 10px;"><table class="highlight tab-size js-file-line-container" data-tab-size="8" style="background: none; padding: 0; margin: 0">
+      <tr style="background: none; padding: 0; margin: 0">
+        <td class="blob-num js-line-number" data-line-number="1" id="file-2bd6e893-2ab1-4f58-9c18-969168ab8171-p6-L1" style="border: 0; padding: 0; background: none"></td>
+        <td class="blob-code blob-code-inner js-file-line" id="file-2bd6e893-2ab1-4f58-9c18-969168ab8171-p6-LC1" style="border: 0; padding: 0; background: none"><span class="pl-k" style="color: #d73a49">make</span></td>
+      </tr>
+      <tr style="background: none; padding: 0; margin: 0">
+        <td class="blob-num js-line-number" data-line-number="2" id="file-2bd6e893-2ab1-4f58-9c18-969168ab8171-p6-L2" style="border: 0; padding: 0; background: none"></td>
+        <td class="blob-code blob-code-inner js-file-line" id="file-2bd6e893-2ab1-4f58-9c18-969168ab8171-p6-LC2" style="border: 0; padding: 0; background: none"><span class="pl-k" style="color: #d73a49">make</span> install</td>
+      </tr>
+</table></pre>
+
+<p>The <code>make install</code> step is critical because otherwise, with the local environment we set up, the new Perl 6 executables won&#39;t be found.</p>
+
+<p>Debugging for me was laborious, with rebuilds taking about three minutes each. The debugger (<em>perl6-debug-m</em>) would have been very useful but I could not install the required <code>Debbugger::UI::CommandLine</code> module so it would be recognized by the locally-installed <code>perl6-debug-m</code>.  The primary method I used was inserted print statements plus using the <code>--ll-exception</code> option of <code>perl6</code>.  Of major note, though, is that this author is a Perl 6 newbie and made lots of mistakes, and did not always remember the fixes, hence this article. (Note I likely would have used the debugging tools but, at the time I started, I did not ask for help and did not have the advice provided shown above.)</p>
+
+<h2 id="testing">Testing</h2>
+
+<p>It goes without saying that a good PR will include tests for the changes. I always create a roast branch with the same name as my rakudo branch. Then I submit both PRs and I refer to the roast PR in the rakudo PR and vice versa.  I note for the roast PR that it <em>requires</em> the companion rakudo PR for it to pass all tests.</p>
+
+<p>See Ref. 5 for much more detail on specialized test scripts for <em>fudging</em> and other esoteric testing matters.</p>
+
+<h2 id="documentation">Documentation</h2>
+
+<p>I try to keep the Perl 6 <a href="https://docs.perl6.org/language/tables">pod table documentation</a> current with my fixes.</p>
+
+<h2 id="nqplessonslearned">NQP lessons learned</h2>
+
+<ul>
+<li><p>LTA error messages are a fact of life, e.g., &quot;Cannot invoke this object...&quot;, which can be caused by many things, including a misspelled identifier (NQP issue filed, early report is it may be impossible to fix anytime soon).</p></li>
+<li><p>Ensure all nqp opcodes have the <em>nqp::</em> prefix (except the few built-ins)</p></li>
+<li><p>Practice with new code in an nqp-only sand-box.</p></li>
+</ul>
+
+<h1 id="success">Success!</h1>
+
+<p>I have now had two major Perl 6 POD (and roast) PRs accepted and merged, and am working on one more &quot;easy&quot; one which I should finish this week.  The PRs are:</p>
+
+<ol>
+<li>Rakudo PR #1240</li>
+</ol>
+
+<p>The <a href="https://github.com/rakudo/rakudo/pull/1240">Rakudo PR</a> provided fixes for RTs #124403, #128221, #132341, #13248, and #129862. It was accompanied by roast <a href="https://github.com/perl6/roast/pull/353">PR #353</a>.</p>
+
+<p>The PR allowed the problem table above to be rendered properly. It also added warnings for questionable tables, added Rakudo environment variables <em>RAKUDO_POD6_TABLE_DEBUG</em> to aid users in debugging tables (see <a href="https://docs.perl6.org/programs/00-running#Environment_Variables">docs, <em>User Debugging</em></a>), and allows short rows with empty columns to be rendered properly.</p>
+
+<ol>
+<li>Rakudo PR #1287</li>
+</ol>
+
+<p>The <a href="https://github.com/rakudo/rakudo/pull/1287">Rakudo PR</a> provided a fix for Rakudo repo issue #1282. It was accompanied by roast <a href="https://github.com/perl6/roast/pull/361">PR #361</a>. (Note that roast PR #361 is not yet merged.)</p>
+
+<p>The PR allows table visual column separators (&#39;|&#39;) and (&#39;+&#39;) to be used as cell data by escaping them in the pod source.</p>
+
+<h1 id="summary">Summary</h1>
+
+<ul>
+<li><p>Perl 6 pod is a great improvement over Perl 5, but it is still not fully implemented.</p></li>
+<li><p>Working in the bowels of Rakudo Perl is rewarding (and fun), but prepare to get your hands dirty!</p></li>
+<li><p>The Perl 6 community is a great group to be associated with.</p></li>
+<li><p>I love Rakudo Perl 6.</p></li>
+</ul>
+
+<p>Merry Christmas and Happy Hacking!</p>
+
+<h1 id="credits">Credits</h1>
+
+<p>Any successful inputs I have made are due to all the Perl 6 core developers and the friendly folks on IRC (#perl6, #perl6-dev).</p>
+
+<h1 id="references">References</h1>
+
+<ol>
+<li>JWs Perl 6 debugger <a href="https://perl6advent.wordpress.com/2012/12/05/a-perl-6-debugger/">Advent article</a></li>
+<li>JWs Rakudo debugger module <a href="https://github.com/jnthn/rakudo-debugger">Debugger::UI::CommandLine</a></li>
+<li>JWs grammar debugger module <a href="https://github.com/jnthn/grammar-debugger">Grammar::Debugger</a></li>
+<li><a href="https://github.com/perl6/roast/blob/master/README.md">Testing Rakudo</a></li>
+<li><a href="https://github.com/perl6/roast/blob/master/CONTRIBUTING.md">Contributing to roast</a></li>
+<li><a href="https://help.github.com/categories/collaborating-with-issues-and-pull-requests/">Github guide to pull requests (PRs)</a></li>
+<li><a href="https://docs.perl6.org/">Perl 6 documentation (<em>docs</em>)</a></li>
+</ol>
+
+<h1 id="appendix">Appendix</h1>
+
+<h2 id="podtools">POD tools</h2>
+
+<ul>
+<li>perl6 --doc=MODULE <perl 6 file name> # where &#39;MODULE&#39; is &#39;HTML&#39;, &#39;Text&#39;, or other appropriate module</perl></li>
+<li>p6doc <perl 6 file name></perl></li>
+<li>perl6 --ll-exception</li>
+</ul>
+
+<h2 id="majorperl6podrenderers">Major Perl 6 POD renderers</h2>
+
+<ul>
+<li>Pod::To::Text (part of the rakudo core)</li>
+<li><a href="https://github.com/perl6/Pod-To-HTML">Pod::To::HTML</a></li>
+</ul>
