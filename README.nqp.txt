@@ -30,4 +30,6 @@ https://perl6advent.wordpress.com/2012/12/05/a-perl-6-debugger/
 
 ======================
 
-Jonathan's Edument course on NQP:
+Jonathan's Edument course on NQP (Rakudo and NQP Internals):
+
+  http://edumentab.github.io/rakudo-and-nqp-internals-course/
