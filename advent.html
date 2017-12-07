@@ -3,13 +3,11 @@
 <p>But the table I got wasn't very pretty!</p>
 <h1><a href="#background" aria-hidden="true" class="anchor" id="user-content-background"><svg aria-hidden="true" class="octicon octicon-link" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Background</h1>
 <p>My first real contact with Perl 6 came in the spring of 2015 when I decided to check on its status and found it was ready for prime time. After getting some experience with the language I started contributing to the docs in places where I could help. One of my first contributions to the docs was to clean up one of the tables which was not rendering nicely .  During my experiments with pod tables on my local host I tried the following table:</p>
-<pre style="font-size: 14px; font-family: monospace"><code>=begin table
--r0c0  r0c1
+<pre lang="=begin"><code>-r0c0  r0c1
 =end table
 </code></pre>
-<p>which caused Perl 6 to throw an ugly, LTA (less than acceptable) exception message:</p>
-<pre style="font-size: 14px; font-family: monospace"><code>"===SORRY!=== Cannot iterate object with P6opaque representation"
-</code></pre>
+<p>which caused Perl 6 to throw an ugly, LTA (less than awesome) exception message:</p>
+<pre lang="&quot;===SORRY!==="><code></code></pre>
 <p>I worked around the problem but it nagged at me so I started investigating the guts of pod and tables.  That led me to the source of the problem in <a href="https://github.com/rakudo/rakudo/blob/master/src/Perl6/Pod.nqp">github.com/rakudo/src/Perl6/Pod.nqp</a>.</p>
 <p>In fact, the real problem for many pod table issues turned out to be in that file.</p>
 <h1><a href="#not-quite-perl-nqp" aria-hidden="true" class="anchor" id="user-content-not-quite-perl-nqp"><svg aria-hidden="true" class="octicon octicon-link" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Not Quite Perl (NQP)</h1>
@@ -21,28 +19,23 @@
 <li><a href="https://github.com/perl6/nqp/blob/master/docs/built-ins.md">NQP built-in routines</a></li>
 </ul>
 <p>Then I started practicing <em>nqp</em> coding by writing and running small <em>nqp</em> files like this (file "hello.nqp"):</p>
-<pre style="font-size: 14px; font-family: monospace"><code>say("Hello, world!");
-</code></pre>
+<pre lang="say(&quot;Hello,"><code></code></pre>
 <p>which, when executed, gave the expected results:</p>
-<pre style="font-size: 14px; font-family: monospace"><code>$ nqp hello.nqp
-Hello, world!
+<pre lang="$"><code>Hello, world!
 </code></pre>
 <p>Note that <code>say()</code> is one of the few <em>nqp</em> opcodes that doesn't require the <code>nqp::</code> prefix.</p>
 <h1><a href="#into-the-trenches" aria-hidden="true" class="anchor" id="user-content-into-the-trenches"><svg aria-hidden="true" class="octicon octicon-link" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Into the trenches</h1>
 <p>The purpose of the <code>Perl6::Pod</code> class, contained in the <code>rakudo/src/Perl6/Pod.nqp</code> file, is to take pod grammar matches and transform them into Perl 6 pod class definitions, in <code>rakudo/src/core/Pod.pm</code>, for further handling by renderers in Perl 6 land.  For tables that means anything represented in any legal pod form as described by the Perl 6 documentation design <em>Synopsis</em> <a href="http://design.perl6.org/S26.html" rel="nofollow"><em>S26</em></a>, the Perl 6 test suite <a href="https://github.com/perl6/roast"><em>specs</em></a>, and the Perl 6 <a href="https://docs.perl6.org/" rel="nofollow"><em>docs</em></a> has to be transformed into a Perl 6 <em>Pod::Block::Table</em> class object with this form as described in file <a href="https://github.com/rakudo/rakudo/blob/master/src/core/Pod.pm">rakudo/src/core/Pod.pm</a>:</p>
-<pre style="font-size: 14px; font-family: monospace"><code>configuration information
-a header line with N cells
+<pre lang="configuration"><code>a header line with N cells
 M content lines, each with N cells
 </code></pre>
 <p>I wanted the <em>nqp</em> table pod handling to be robust and able to automatically fix some format issues (with a warning to the author) or throw an exception (gracefully) with detailed information of problems to enable the author to fix the pod input.</p>
 <h1><a href="#workspace-and-tools" aria-hidden="true" class="anchor" id="user-content-workspace-and-tools"><svg aria-hidden="true" class="octicon octicon-link" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Workspace and tools</h1>
-<p>I needed two cloned repositories: rakudo and roast. I also needed forks of those same repositories so I could create pull requests (PRs) for my changes. I found a very handy Perl 5 tool in CPAN module <a href="https://metacpan.org/pod/distribution/App-GitGot/bin/got" rel="nofollow">App::GitGot</a>. Using <em>got</em> allowed me to easily set up all four repos. (Note that <em>got</em> requires that its target repo <em>not</em> exist either in the desired local directory or the user's <em>github</em> account.) After configuring <em>got</em> I went to a suitable directory to contain both repos and executed the following:</p>
-<pre style="font-size: 14px; font-family: monospace"><code>got fork https://github.com/rakudo/rakudo.git
-got fork https://github.com/perl6/roast.git
+<p>I needed two cloned repositories: rakudo and roast. I also needed forks of those same repositories on <em>github</em> so I could create pull requests (PRs) for my changes. I found a very handy Perl 5 tool in CPAN module <a href="https://metacpan.org/pod/distribution/App-GitGot/bin/got" rel="nofollow">App::GitGot</a>. Using <em>got</em> allowed me to easily set up all four repos. (Note that <em>got</em> requires that its target repo <em>not</em> exist either in the desired local directory or the user's <em>github</em> account.) After configuring <em>got</em> I went to a suitable directory to contain both repos and executed the following:</p>
+<pre lang="got"><code>got fork https://github.com/perl6/roast.git
 </code></pre>
 <p>which resulted in a subdirectories <em>rakudo</em> and <em>roast</em> containing the cloned repos and new forks of rakudo and roast on my github account. In the rakudo directory one can see the default setup for easy creation of PRs:</p>
-<pre style="font-size: 14px; font-family: monospace"><code>$ git remote -v
-origin	git@github.com:tbrowder/rakudo.git (fetch)
+<pre lang="$"><code>origin	git@github.com:tbrowder/rakudo.git (fetch)
 origin	git@github.com:tbrowder/rakudo.git (push)
 upstream	https://github.com/rakudo/rakudo.git (fetch)
 upstream	https://github.com/rakudo/rakudo.git (push)
@@ -57,16 +50,14 @@ upstream	https://github.com/rakudo/rakudo.git (push)
 </ul>
 <p>(See all scripts mentioned here at <a href="https://github.com/tbrowder/nqp-tools">https://github.com/tbrowder/nqp-tools</a>.)</p>
 <p>To complete the local working environment you will need to install some local modules so you must change your path and install a local copy of the zef installer.  Follow these steps in your rakudo directory (from advice from <em>@Zoffix</em>):</p>
-<pre style="font-size: 14px; font-family: monospace"><code>git clone https://github.com/ugexe/zef
-export PATH=`pwd`/install/bin:$PATH
+<pre lang="git"><code>export PATH=`pwd`/install/bin:$PATH
 cd zef; perl6 -Ilib bin/zef install .
 cd ..
 export PATH=`pwd`/install/share/perl6/site/bin:$PATH
 zef install Inline::Perl5
 </code></pre>
 <p>Then install any other module you need, e.g.,</p>
-<pre style="font-size: 14px; font-family: monospace"><code>zef install Debugger::UI::CommandLine
-zef install Grammar::Debugger
+<pre lang="zef"><code>zef install Grammar::Debugger
 </code></pre>
 <h1><a href="#hacking" aria-hidden="true" class="anchor" id="user-content-hacking"><svg aria-hidden="true" class="octicon octicon-link" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Hacking</h1>
 <p>Now start hacking away. When ready for a build, execute:</p>
@@ -93,7 +84,15 @@ make install
 </li>
 </ul>
 <h1><a href="#success" aria-hidden="true" class="anchor" id="user-content-success"><svg aria-hidden="true" class="octicon octicon-link" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Success!</h1>
-<p>I have now had two major Perl 6 POD PRs accepted and merged, and am working on one more "easy" one which I should finish this week.</p>
+<p>I have now had two major Perl 6 POD (and roast) PRs accepted and merged, and am working on one more "easy" one which I should finish this week.  The PRs are:</p>
+<ul>
+<li>
+<p>Rakudo RT #124403, #128221, #132341, #13248, #129862 (<a href="https://github.com/rakudo/rakudo/pull/1240">Rakudo PR #1240</a>, and <a href="https://github.com/perl6/roast/pull/353">roast PR #353</a>)</p>
+</li>
+<li>
+<p>Rakudo RT #1282 (<a href="https://github.com/rakudo/rakudo/pull/1287">Rakudo PR #1287</a>, and <a href="https://github.com/perl6/roast/pull/361">roast PR #361</a>) [roast PR #361 is not yet merged]</p>
+</li>
+</ul>
 <h1><a href="#summary" aria-hidden="true" class="anchor" id="user-content-summary"><svg aria-hidden="true" class="octicon octicon-link" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Summary</h1>
 <ul>
 <li>
