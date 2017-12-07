@@ -3,7 +3,7 @@ use LWP::Simple;
 
 my $url = "https://github.com/tbrowder/Perl6-Advent/blob/master/p6advent-2017-12-04.md";
 
-sub MAIN ($url) {
+sub MAIN() {
     put LWP::Simple.get($url)
         .comb(/'<article' <-[>]>+ '>' <(.+?)> '</article>'/)
         .subst(:g, 'class="pl-c"',   'style="color: #999;"')

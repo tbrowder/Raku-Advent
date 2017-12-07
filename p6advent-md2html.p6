@@ -2,7 +2,7 @@
 use LWP::Simple;
 
 #my $gist-url = 'https://gist.github.com/tbrowder/4d0091ca6ef87863e43e4b32fce640a7/';
-my $gist-url = "https://github.com/tbrowder/Perl6-Advent/blob/master/p6advent-2017-12-04.md";
+my $gist-url = "https://github.com/tbrowder/Perl6-Advent/blob/master/p6advent-2017-12-08.md";
 
 my $str = get-html($gist-url);
 
