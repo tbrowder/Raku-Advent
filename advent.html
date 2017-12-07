@@ -1,4 +1,4 @@
-<h1><a href="#adventures-in-npq-land-a-tale-of-tattered-tables-4-december" aria-hidden="true" class="anchor" id="user-content-adventures-in-npq-land-a-tale-of-tattered-tables-4-december"><svg aria-hidden="true" class="octicon octicon-link" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Adventures in NPQ Land: A Tale of Tattered Tables (4 December)</h1>
+<h1><a href="#adventures-in-npq-land-a-tale-of-tattered-tables-8-december" aria-hidden="true" class="anchor" id="user-content-adventures-in-npq-land-a-tale-of-tattered-tables-8-december"><svg aria-hidden="true" class="octicon octicon-link" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Adventures in NPQ Land: A Tale of Tattered Tables (8 December)</h1>
 <p>With apologies to the old Christmas classic, "The Twelve Days of Christmas," I give you the first line of a Perl 6 version:</p>
 <p><em>On the first day of Christmas, my true love gave to me, a Perl table in a pod tree...</em></p>
 <p>But the table I got wasn't very pretty!</p>
@@ -18,14 +18,13 @@ local host I tried the following table:</p>
 <p>which caused Perl 6 to throw an ugly, LTA (less than acceptable) exception message:</p>
 <pre style="font-size: 14px; font-family: monospace"><code>"===SORRY!=== Cannot iterate object with P6opaque representation"
 </code></pre>
-<p>That bug was filed, with assistance from <em>@masak</em>, as Rakudo bug RT
-<em>#128221</em>.</p>
+<p>That bug was filed, with assistance from <em>@masak</em>, as Rakudo bug RT <em>#128221</em>.</p>
 <p>I worked around the problem but it nagged at me so I started
 investigating the guts of pod and tables.  That led me to the source
-of the problem in <a href="https://github.com/rakudo/rakudo/src/Perl6/Pod.nqp">github.com/rakudo/src/Perl6/Pod.nqp</a>.</p>
+of the problem in <a href="https://github.com/rakudo/rakudo/blob/master/src/Perl6/Pod.nqp">github.com/rakudo/src/Perl6/Pod.nqp</a>.</p>
 <p>In fact, the real problem for many pod table issues turned out to be
 in that file.</p>
-<p>When I asked expert developer Liz (lizmat) on the #perl6-dev channel for pointers to nqp debugging she jokingly said "MIUAYGA" (Make It Up As You Go Along) [2017-10-30 12:30]</p>
+<p>When I asked expert developer Liz (<em>@lizmat</em>) on the #perl6-dev channel for pointers to nqp debugging she jokingly said "MIUAYGA" (Make It Up As You Go Along) [2017-10-30 12:30]</p>
 <h1><a href="#working-in-the-trenches" aria-hidden="true" class="anchor" id="user-content-working-in-the-trenches"><svg aria-hidden="true" class="octicon octicon-link" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Working in the trenches</h1>
 <p>The purpose of the <code>Perl6::Pod</code> class, contained in the
 <code>rakudo/src/Perl6/Pod.nqp</code> file, is to take pod grammar matches
@@ -37,7 +36,7 @@ form as described by the Perl 6 documentation design <em>Synopsis</em>
 <a href="https://github.com/perl6/roast"><em>specs</em></a>, and the Perl 6
 <a href="https://docs.perl6.org/" rel="nofollow"><em>docs</em></a> has to be transformed into a Perl 6
 <em>Pod::Block::Table</em> class object with this form as described in file
-<a href="https://github.com/rakudo/rakudo/blob/master/src/core/Pod.pm">rakudo/src/code/Pod.pm</a>:</p>
+<a href="https://github.com/rakudo/rakudo/blob/master/src/core/Pod.pm">rakudo/src/core/Pod.pm</a>:</p>
 <pre style="font-size: 14px; font-family: monospace"><code>configuration information
 a header line with N cells
 M content lines, each with N cells
@@ -70,94 +69,98 @@ creation of PRs:</p>
 <p>There are similar results in the roast repo.</p>
 <p>Next I renamed the roast repo as a subdirectory of rakudo ("rakudo/t/spec")
 so it functions as a subgit of the local rakudo.</p>
-<p>Finally, I created a bash script to ease configuring rakudo for installation
-in the local repo directory. The script contains the pertinent action lines:</p>
-<p>SEE ALL SCRIPTS MENTIONED HERE AT <a href="HTTPS://GITHUB.COM/TBROWDER/NQP-TOOLS">HTTPS://GITHUB.COM/TBROWDER/NQP-TOOLS</a></p>
+<p>Finally, I created several bash scripts to ease configuring rakudo for
+installation in the local repo directory, setting the environment, and
+running tests:</p>
+<ul>
+<li><code>rakudo-local-config.sh</code></li>
+<li><code>run-table-tests.sh</code></li>
+<li><code>set-rakudo-envvars.sh</code></li>
+</ul>
+<p>(See all scripts mentioned here at <a href="https://github.com/tbrowder/nqp-tools">https://github.com/tbrowder/nqp-tools</a>.)</p>
 <p>To complete the local working environment you will need to install some
-modules so you must change your path and install a local copy of the zef installer.</p>
-<p>Now start hacking away. When ready for a build,</p>
-<h1><a href="#success" aria-hidden="true" class="anchor" id="user-content-success"><svg aria-hidden="true" class="octicon octicon-link" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Success!</h1>
-<h1><a href="#npq-lessons-learned" aria-hidden="true" class="anchor" id="user-content-npq-lessons-learned"><svg aria-hidden="true" class="octicon octicon-link" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>NPQ lessons learned</h1>
-<ul>
-<li>
-<p>LTA error messages are a fact of life, e.g., "Cannot invoke...", which can be caused by
+local modules so you must change your path and install a local copy of the zef installer.</p>
+<p>Now start hacking away. When ready for a build, execute:</p>
+<p><code>make</code></p>
+<div class="highlight highlight-source-makefile"><pre style="font-size: 14px; font-family: monospace">The last step is critical because otherwise, with the local
+environment we set up, the new Perl executables won't be found.
+
+
+<span style="color: #999;"><span style="color: #999;">#</span> Success!</span>
+
+<span style="color: #999;"><span style="color: #999;">#</span> NPQ lessons learned</span>
+
++ LTA error messages are a fact of life, e.g., "Cannot invoke...", which can be caused by
 many things, including a misspelled identifier (NQP issue filed, early report is it may be impossible to
-fix anytime soon).</p>
-</li>
-<li>
-<p>Ensure all nqp opcodes have the nqp::prefix (except the few built-ins)</p>
-</li>
-<li>
-<p>Practice with new code in aan NQP-only sand-box.</p>
-</li>
-</ul>
-<p>Well, not having a clue how to proceed I finally, with the kind help
-of Carl Masak, who filed bug RT #128221. I also had some discussions
-with pmichaud, one of the major devs and daddy rabbits for moarvm (I
-met him at YAPC::NA 2017 along with luminaries Larry Wall, Damian
-Conway, and Elizabeth. Many others were present but I didn't get a
-chance to meet them. Got Larry and Damian to autograph my Perl Best
-Practices book.</p>
-<p>I finally got a better looking table, but the problems with tables
-have continued to bug me. I soon found that the table fix was not
-going to be a simple one and, after a few minor contributions to
-Pod.nqp I turned to more pressing projects for me: publishing some
-modules to scratch some of my coding itches.</p>
-<p>[out of sequence:] describe in more detail how I came to Perl 6 and how I saw
-it was the Perl 4 and 5  I really wanted.</p>
-<p>more info on nqp, some struggles with it, help from @moritz, my debugging setup,
-importance of <strong>--ll-exception</strong>, weirdness of rakudo</p>
-<p>return to tables in mid October 2017, soon became source of sleepless nights,
+fix anytime soon).
+
+<span class="pl-en">+</span> <span class="pl-en">Ensure</span> <span class="pl-en">all</span> <span class="pl-en">nqp</span> <span class="pl-en">opcodes</span> <span class="pl-en">have</span> <span class="pl-en">the</span> <span class="pl-en">*nqp</span>::<span style="color: #449;">*</span> prefix (except the few built-ins)
+
++ Practice with new code in aan NQP-only sand-box.
+
+
+<span class="pl-en">[out</span> <span class="pl-en">of</span> <span class="pl-en">sequence</span>:] describe in more detail how I came to Perl 6 and how I saw
+it was the Perl 4 and 5  I really wanted.
+
+more info on nqp, some struggles with it, help from @moritz, my debugging setup,
+importance of **--ll-exception**, weirdness of rakudo
+
+return to tables in mid October 2017, soon became source of sleepless nights,
 almost have a solution, found more table and other pod problems
-and added 3 more RTs (numbers??)</p>
-<p>struggles with perl rt, filing rakudo bugs</p>
-<p>early acceptance into perl6 group on github by @moritz</p>
-<p>mention helpful people AlexDaniel El_Chem coke carl senakuhn gldflex
-zoffix ugexe timotimo jnthn</p>
-<p>blurb on perl 6 community, irc, etc.</p>
-<p>lnks to my table doc on docs</p>
-<p>my number of doc commits (as a perl 6 member how easy it is to
+and added 3 more RTs (numbers??)
+
+struggles with perl rt, filing rakudo bugs
+
+early acceptance into perl6 group on github by @moritz
+
+mention helpful people AlexDaniel El_Chem coke carl senakuhn gldflex
+zoffix ugexe timotimo jnthn
+
+blurb on perl 6 community, irc, etc.
+
+lnks to my table doc on docs
+
+my number of doc commits (as a perl 6 member how easy it is to
 peruse docs, edit, and make corrections)
-through web editor</p>
-<p>add lots more technical details on pod tables and nqp,
-pod bugs, pod bug fixes</p>
-<h1><a href="#tools-used" aria-hidden="true" class="anchor" id="user-content-tools-used"><svg aria-hidden="true" class="octicon octicon-link" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>tools used</h1>
-<ul>
-<li>perl6 --doc=MODULE &lt;Perl 6 file name&gt;</li>
-<li>p6doc &lt;Perl 6 file name&gt;</li>
-<li>perl6 --ll-exception</li>
-</ul>
-<h1><a href="#major-renderers" aria-hidden="true" class="anchor" id="user-content-major-renderers"><svg aria-hidden="true" class="octicon octicon-link" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>major renderers</h1>
-<ul>
-<li>Pod::To::Text</li>
-<li>Pod::To::HTML</li>
-</ul>
-<h1><a href="#some-known-pod-shortfalls" aria-hidden="true" class="anchor" id="user-content-some-known-pod-shortfalls"><svg aria-hidden="true" class="octicon octicon-link" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>some known pod shortfalls</h1>
-<ul>
-<li>inline formatting</li>
-</ul>
-<h1><a href="#summary" aria-hidden="true" class="anchor" id="user-content-summary"><svg aria-hidden="true" class="octicon octicon-link" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>summary</h1>
-<ul>
-<li>
-<p>Perl 6 pod is a great improvement over Perl 5, but it is still not fully implemented.</p>
-</li>
-<li>
-<p>Working in the bowels of Rakudo Perl is rewarding, but prepare to get your hands dirty!</p>
-</li>
-<li>
-<p>The Perl 6 community is a great group to be associated with.</p>
-</li>
-<li>
-<p>I love Rakudo Perl 6.</p>
-</li>
-</ul>
-<h1><a href="#credits" aria-hidden="true" class="anchor" id="user-content-credits"><svg aria-hidden="true" class="octicon octicon-link" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Credits</h1>
-<h1><a href="#references" aria-hidden="true" class="anchor" id="user-content-references"><svg aria-hidden="true" class="octicon octicon-link" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>References</h1>
-<h2><a href="#bugs" aria-hidden="true" class="anchor" id="user-content-bugs"><svg aria-hidden="true" class="octicon octicon-link" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Bugs</h2>
-<ul>
-<li>RT</li>
-<li>RT</li>
-<li>RT</li>
-<li>RT</li>
-<li>RT</li>
-</ul>
+through web editor
+
+add lots more technical details on pod tables and nqp,
+pod bugs, pod bug fixes
+
+<span style="color: #999;"><span style="color: #999;">#</span> Tools used</span>
+
++ perl6 --doc=MODULE &lt;Perl 6 file name&gt;
++ p6doc &lt;Perl 6 file name&gt;
++ perl6 --ll-exception
+
+<span style="color: #999;"><span style="color: #999;">#</span> Major Perl 6 POD renderers</span>
+
+<span class="pl-en">+</span> <span class="pl-en">Pod</span>::To::Text
+<span class="pl-en">+</span> <span class="pl-en">Pod</span>::To::HTML
+
+<span style="color: #999;"><span style="color: #999;">#</span> Some known pod shortfalls</span>
+
++ lack of table cell formatting
+
+<span style="color: #999;"><span style="color: #999;">#</span> Summary</span>
+
++ Perl 6 pod is a great improvement over Perl 5, but it is still not fully implemented.
+
++ Working in the bowels of Rakudo Perl is rewarding (and fun), but prepare to get your hands dirty!
+
++ The Perl 6 community is a great group to be associated with.
+
++ I love Rakudo Perl 6.
+
+Merry Christmas and Happy Hacking!
+
+<span style="color: #999;"><span style="color: #999;">#</span> Credits</span>
+
+All the Perl 6 core developers.
+
+<span style="color: #999;"><span style="color: #999;">#</span> References</span>
+
+<span class="pl-en">+</span> <span class="pl-en">Slides</span> <span class="pl-en">from</span> <span class="pl-en">Jonathan</span> <span class="pl-en">Worthington's</span> <span class="pl-en">(JWs)</span> <span class="pl-en">course</span> <span class="pl-en">on</span> <span class="pl-en">[Rakudo</span> <span class="pl-en">and</span> <span class="pl-en">NQP</span> <span class="pl-en">Internals](http</span>://edumentab.github.io/rakudo-and-nqp-internals-course/)
+<span class="pl-en">+</span> <span class="pl-en">JWs</span> <span class="pl-en">Perl</span> <span class="pl-en">6</span> <span class="pl-en">debugger</span> <span class="pl-en">[Advent</span> <span class="pl-en">article](https</span>://perl6advent.wordpress.com/2012/12/05/a-perl-6-debugger/)
+<span class="pl-en">+</span> <span class="pl-en">JWs</span> <span class="pl-en">Rakudo</span> <span class="pl-en">debugger</span> <span class="pl-en">module</span> <span class="pl-en">[Debugger</span>::UI::CommandLine](https://github.com/jnthn/rakudo-debugger)
+<span class="pl-en">+</span> <span class="pl-en">JWs</span> <span class="pl-en">grammar</span> <span class="pl-en">debugger</span> <span class="pl-en">module</span> <span class="pl-en">[Grammar</span>::Debugger](https://github.com/jnthn/grammar-debugger)</pre></div>
