@@ -26,3 +26,11 @@ Zoffix's new advent highlighter:
 
 
 use ACME_ADVENT_HIGHLIGHTER_TOKEN=
+
+
+2019-12-00
+==========
+
+New highlighter is broken--no help in sight. Fall back to old method:
+
+  $ p6advent-md2html.p6

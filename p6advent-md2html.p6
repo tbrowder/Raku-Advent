@@ -1,7 +1,7 @@
 #!/usr/bin/env perl6
 use LWP::Simple;
 
-my $gist-url = "https://github.com/tbrowder/Perl6-Advent/blob/master/p6advent-2017-12-08.md";
+my $gist-url = "https://gist.github.com/tbrowder/9031f784170aca55722b473bf3b7f125";
 
 my $str = get-html($gist-url);
 

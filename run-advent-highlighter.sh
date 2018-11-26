@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# set token in envvar ACME_ADVENT_HIGHLIGHTER_TOKEN
+# set github token in envvar ACME_ADVENT_HIGHLIGHTER_TOKEN
 
 if [[ -z $1 ]] ; then
     echo "Usage: $0 <article.md>"
@@ -12,6 +12,6 @@ if [[ ! -f $1 ]] ; then
     exit
 fi
 
-CMD=advent-highligher.p6
+CMD=advent-highlighter.p6
 
 $CMD --wrap --multi $1

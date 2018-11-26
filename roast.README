@@ -1,3 +1,0 @@
-The clone of the <github.com/tbrowder/roast> fork of
-<github.com/perl6/roast> is renamed "rakudo/t/spec" and functions a a
-subgit of the local rakudo.
