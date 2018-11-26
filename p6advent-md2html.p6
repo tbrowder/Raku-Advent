@@ -1,6 +1,7 @@
 #!/usr/bin/env perl6
 use LWP::Simple;
 
+# put your original text in a github gist and put its URL here:
 my $gist-url = "https://gist.github.com/tbrowder/9031f784170aca55722b473bf3b7f125";
 
 my $str = get-html($gist-url);
