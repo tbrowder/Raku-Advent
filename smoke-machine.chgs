@@ -1,91 +1,91 @@
 The year is ending and we have a lot to celebrate! What is a better
-way to celebrate the end of the year than with our family and friend?
-To achieve that, here at my home, we decided to run a secret santa!
-So, my goal is to write a secret santa! That's something where I can
+way to celebrate the end of the year than with our family and friends?
+To help achieve that, here at my home, we decided to run a Secret Santa game.
+So, my goal is to write a Secret Santa program! That's something where I can
 use this wonderful project called Red.
 
-Red is an ORM for perl6 still under development and not published as a
+Red is an ORM (Object Relational Model) for Perl 6 still under development and not published as a
 module yet. But it's growing and it is close to a release.
 
-So let's create our first table. A table that will store the people
-participating on our secret santa. To the code:
+So let's create our first table: a table that will store the people
+participating in our Secret Santa. To the code:
 
 Red maps relational databases to OOP. Each table is mapped to a Red
-class (model), each of its objects represents a row.
+class (model), each of whose objects represents a row.
 
 The way we a create a model is by using the model special word. A
 model is just a normal class that extends Red::Model and has a
-MetamodelX::Red::Model's object as it's metaclass. Red does not add
-any methods you didn't explicit create to its models. So to interact
+MetamodelX::Red::Model's object as its metaclass. Red does not add
+any methods you didn't explicitly create for its models. So to interact
 with the database you should use the metaclass.
 
 But let's continue.
 
 The code creates a new model called Person. The name of the table this
-model represents will be the same name as the model: "Person". If
+model represents will be the same name as the model: 'Person'. If
 necessary, you can change the name of the table with the is table<...>
 trait (for example: model Person is table<another_name> {...}).
 
 This model has 3 attributes:
 
-* 2 of them have an is column trait ($.name and $.email);
+* two of them have an is column trait ($.name and $.email);
 
-* and one has an is serial ($.id). That means the same as is column{
+* and one has an is serial trait ($.id). That means the same as is column{
   :id, :auto-increment }.
 
-So every attribute on Person are columns. The is serial (I mean the
+So all attributes on Person are columns. The is serial (I mean the
 :id part) means that it's the table's primary key.
 
-After that it's setting a dynamic var ($*RED-DB) for the result of
-database "SQLite". The database sub receive the driver's name and the
+After that it's setting a dynamic variable ($*RED-DB) for the result of
+database 'SQLite'. The database sub receives the driver's name and the
 parameters it expects.
 
-In this case it's uses the SQLite driver and if you don't pass any
-argument, it will use it as an in memory database (if you want to use
+In this case it uses the SQLite driver and, if you don't pass any
+argument, it will use it as an in memory database.  If you want to use
 a file named secret-santa.db as the database file, you can do database
-"SQLite", :database<secret-santa.db>. Or if you want to use a local
-Postgres, just use database "Pg"). Red uses the var $*RED-DB to know
+"SQLite", :database<secret-santa.db>. Or, if you want to use a local
+Postgres, just use database "Pg"). Red uses the variable $*RED-DB to know
 what database to use.
 
 OK, now lets create the table! As I said before, Red did not add any
 methods you didn't explicitly ask for. So, to create the table a
-metaclass' method is used. Person.^create-table is how you create the
+metaclass's method is used. Person.^create-table is how you create the
 table.
 
 Now we should insert some data. We do that with another meta method
-(.^create). .^create expect the same arguments .new would
+(.^create). .^creates expect the same arguments .new
 expects. Each named argument will set an attribute with the same
 name. .^create will create a new Person object, save it in the
-database (with .^save: :insert) and return it.
+database (with .^save: :insert), and return it.
 
 Every model has a ResultSeq. That is a sequence that represents every
-row on the table. We can get its ResultSeq with .^all (or
+row in the table. We can get its ResultSeq with .^all (or
 .^rs). ResultSeq has some methods to help you to get information from
 the table, for example: .grep will filter the rows (as it does in a
 normal Seq) but it doesn't do that in memory, it returns a new
 ResultSeq with that filter set. When its iterator is retrieved, it
-runs a SQL query using every thing set on the ResultSeq.
+runs a SQL query using everything set on the ResultSeq.
 
 In our example, Person.^all.grep(*.email.defined).map: *.name will run
 a query like:
 
-OK, we have a code that can save who is on the secret santa. But each
-one on it want different gifts. How can we know what is the wishes of
+Okay, we now have a code that can save who is entered in our Secret Santa game. But each
+one in it wants different gifts. How can we know the wishes of
 each one?
 
-Lets modify the code to make it save the wishlist for everyone
-participating in the secret santa:
+Let's modify the code to make it save the wishlist for everyone
+participating in Secret Santa:
 
 Now we have a new model Wishlist that refers to a table named
-withlist. It has $!id as id, $!name and $!link are columns and there
-are something new! has UInt $!wisher-id is referencing{ Person.id };
+withlist. It has $!id as id, $!name and $!link are columns, and there
+are some things new! has UInt $!wisher-id is referencing{ Person.id };
 is the same as has UInt $!wisher-id is column{ :references{ Person.id
-} }; that means is a column that's a foreign key that references the
+} }; that means it's a column that's a foreign key that references the
 id Person's column. It also has a has Person $.wisher is relationship{
 .wisher-id }; it's not a column, it's a "virtual" field. the $ sigil
-means that there are only 1 wisher for a wish. And is relationship
+means that there is only one wisher for a wish, and its relationship
 expects a Callable that will receive a model. If it's Scalar it will
-receive the current model as the only argument. So, in this case it
+receive the current model as the only argument. So, in this case, it
 will be Wishlist. The return of the relationsip's Callable must be a
 column that references some other column.
 
@@ -94,7 +94,7 @@ Lets see how this table is created:
 The Person model has changed too! Now it has a @.wishes relationship
 (has Wishlist @.wishes is relationship{ .wisher-id }). It uses a @
 sigil so each Person can have more than one wish. The Callable passed
-will receive the type of the Positional attribute (Wishlist on this
+will receive the type of the Positional attribute (Wishlist in this
 case) and must return a column that references some other column.
 
 We created a new Person as we did before: my \fernando =
@@ -104,28 +104,30 @@ use the relationship (wishes) to create a new wish
 :link<https://commaide.com>). That creates a new wish for Fernando
 running the following SQL:
 
-Had you seen? wisher_id is 1... 1 is Fernando's id. Once you have
-created the wish from the Fernando's .wishes(), it already knows that
+Had you seen?  # <== I'm not sure of intent here, maybe: "Did you notice ...some feature..."
+
+wisher_id is 1... 1 is Fernando's id. Once you have
+created the wish from Fernando's .wishes(), it already knows that
 it belongs to Fernando.
 
-Then we loop over every Person in database (Person.^all) and print its
+Then we loop over every Person in the database (Person.^all) and print its
 name and loop over that person's wishes and print its name and link.
 
-OK, we can save who is on it... Get what they want... but the draw?
+Okay, we can save who is participating...get what they want...but the draw?
 Who should I give a gift to? To do that we change our program again:
 
-Now Person has 2 new attributes ($!pair-id and $.pair) and a new
-method (draw). $!pair-id is a foreign key that references to the field
+Now Person has two new attributes ($!pair-id and $.pair) and a new
+method (draw). $!pair-id is a foreign key that references the field
 id on the same table (Person) so we have to use an alias
 (.^alias). The other one is the relationship ($.pair) that uses that
-fk.
+field key.
 
 The new method (draw) is where the magic happens. It uses the method
 .pick: * that on a normal Positional would shuffle the list. And it
 does the same here, with the query:
 
-Once we have the shuffled list, we use .rotor to get 2 items and go 1
-back, so we save what is the pair of each person, but the last one,
-that is set to the first one.
+Once we have the shuffled the list, we use .rotor to get two items and go one
+back, so we save the pair of each person giving to the next person,
+and the last person in the list will give to the first person.
 
 And this is the output of our final code:
