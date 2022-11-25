@@ -1,0 +1,23 @@
+El mié, 2 nov 2022 a las 13:24, Tom Browder (<tom.browder@gmail.com>) escribió:
+
+TOM: Juan, you mention using a gist for one's article. What text format
+should that be in?
+
+JUAN: It uses markdown. But you don't need to use gist for everything, just
+for the code. It's very convenient, you don't have to process it, and
+it renders a decent highlight.
+
+TOM: I am still trying to figure out the best way to put an article on
+Wordpress--I hate that editor!
+
+JUAN: Right, not very good. What I do is to write in markdown, copy and
+paste from the rendered HTML, and then add the code fragments in gists
+by hand.
+
+TOM: If you haven't tried it out yet, check out DEV (https://dev.to). I
+love the editor there. I think we should self-host our own version but
+others disagree.
+
+JUAN: It's free software... But self-hosting is not very
+sustainable. Yep, I've tried it, https://dev.to/JJ. Not writing so
+much stuff lately...
