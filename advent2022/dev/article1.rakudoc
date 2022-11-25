@@ -15,7 +15,7 @@ primarily a Raku shop because of the power of the language for all
 their programming needs ranging from shop management to long-range
 planning.) The problem was converting the digital output from the OCR hardware to
 final PDF products for the factories and toy makers. The growing
-influence of L<https://github.com> and its Github-flavored Markdown
+influence of L<Github|https://github.com/tbrowder/GraphicsMagick> and its Github-flavored Markdown
 format had resulted in IT's post-OCR software converting the text into
 that format.
 
