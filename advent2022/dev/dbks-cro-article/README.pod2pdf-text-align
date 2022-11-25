@@ -1,0 +1,48 @@
+From David Warring (2022-11-23):
+
+Hi Tom,
+
+I prepared a short example, but I did need to fix PDF::Content 
+to get it work. So please upgrade to PDF::Content 0.6.8.
+
+The align option to the print and say methods can be left, center, 
+right andnjustify`.
+
+If align is center then the current text position is used as the 
+mid-point of the string.
+
+If align is right then the text position is used as the right side 
+of the string.
+
+Justified text is aligned from the left.
+
+So, the current text position usually needs to be shifted to the 
+center of the page when centering text, or to the right when 
+outputting right aligned text. The following example shows this:
+
+use PDF::Lite;
+my PDF::Lite $pdf .= new;
+constant PageWidth = 500;
+constant LeftMargin = 10;
+constant RightMargin = PageWidth - 10;
+constant PageCenter = PageWidth div 2;
+$pdf.media-box = [0, 0, PageWidth, 250];
+my PDF::Lite::Page $page = $pdf.add-page;
+my $font = $pdf.core-font( :family<Helvetica> );
+
+$page.text: -> $txt {
+    $txt.font = $font, 12;
+    $txt.text-position = LeftMargin, 240;
+    $txt.say: 'Left Aligned';
+    $txt.say;
+    $txt.say: 'This text is centered on the page', :align<center>, :position[PageCenter];
+    $txt.say;
+    $txt.say: 'This text is aligned from the right', :align<right>, :position[RightMargin];
+    $txt.say;
+    $txt.say: 'This text has multiple wrapping lines and is aligned from the right.', :align<right>, :position[RightMargin], :width(100);
+    $txt.say;
+    $txt.text-position = LeftMargin;
+    $txt.say: 'This text has multiple wrapping lines and is justified.', :align<justify>, :width(100);
+}
+
+$pdf.save-as: "text-align.pdf";
