@@ -2,8 +2,8 @@
 %¥±ë¼
 1 0 obj
 <<
-  /CreationDate (D:20221109063013-06'00')
-  /Creator (Raku-6.d, PDF::Lite-0.0.12; PDF::Content-0.6.7; PDF-0.5.12)
+  /CreationDate (D:20221126100832-06'00')
+  /Creator (Raku-6.d, PDF::Lite-0.0.12; PDF::Content-0.6.8; PDF-0.5.12)
   /Producer (Pod::To::PDF::Lite-0.1.6)
 >>
 endobj
@@ -16,7 +16,7 @@ endobj
 <<
   /Type /Pages
   /Count 13
-  /Kids [ 4 0 R 14 0 R 18 0 R 22 0 R 26 0 R 30 0 R 34 0 R 38 0 R 42 0 R 46 0 R 50 0 R 54 0 R 58 0 R ]
+  /Kids [ 4 0 R 13 0 R 17 0 R 21 0 R 25 0 R 29 0 R 33 0 R 37 0 R 41 0 R 45 0 R 49 0 R 53 0 R 57 0 R ]
   /MediaBox [ 0 0 612 792 ]
 >>
 endobj
@@ -28,13 +28,13 @@ endobj
   /Parent 3 0 R
   /Resources <<
     /ExtGState << /GS1 6 0 R /GS2 7 0 R >>
-    /Font << /F1 8 0 R /F2 9 0 R /F3 10 0 R /F4 12 0 R /F5 13 0 R >>
+    /Font << /F1 8 0 R /F2 9 0 R /F3 10 0 R /F4 12 0 R >>
   >>
 >>
 endobj
 
 5 0 obj
-<< /Length 3526 >> stream
+<< /Length 3479 >> stream
 BT
   1 0 0 1 72 704 Tm
   /F1 10 Tf
@@ -69,17 +69,17 @@ BT
   (.) Tj
   9.35 TL
   T*
-  ( bin) Tj
+  (+-- bin) Tj
   T*
-  (    app) Tj
+  (|   +-- app) Tj
   T*
-  ( lib) Tj
+  (+-- lib) Tj
   T*
-  ( META6.json) Tj
+  (+-- META6.json) Tj
   T*
-  ( resources) Tj
+  (+-- resources) Tj
   T*
-  ( templates) Tj
+  (+-- templates) Tj
 ET
 q
   0 g
@@ -237,11 +237,6 @@ q
   77 113.25 458 155.25 re
   B
 Q
-BT
-  1 0 0 1 540 64 Tm
-  /F5 8 Tf
-  [ 5671 (Page 1 of 13) ] TJ
-ET
 endstream
 endobj
 
@@ -294,27 +289,18 @@ endobj
 
 13 0 obj
 <<
-  /Type /Font
-  /Subtype /Type1
-  /BaseFont /Helvetica
-  /Encoding /WinAnsiEncoding
->>
-endobj
-
-14 0 obj
-<<
   /Type /Page
-  /Contents 15 0 R
+  /Contents 14 0 R
   /Parent 3 0 R
   /Resources <<
-    /ExtGState << /GS1 16 0 R /GS2 17 0 R >>
-    /Font << /F1 10 0 R /F2 8 0 R /F3 9 0 R /F4 13 0 R >>
+    /ExtGState << /GS1 15 0 R /GS2 16 0 R >>
+    /Font << /F1 10 0 R /F2 8 0 R /F3 9 0 R >>
   >>
 >>
 endobj
 
-15 0 obj
-<< /Length 4416 >> stream
+14 0 obj
+<< /Length 4350 >> stream
 BT
   1 0 0 1 82 704 Tm
   /F1 8.5 Tf
@@ -593,36 +579,31 @@ BT
   [ -46104 ] TJ
   T*
 ET
-BT
-  1 0 0 1 540 64 Tm
-  /F4 8 Tf
-  [ 5671 (Page 2 of 13) ] TJ
-ET
 endstream
 endobj
 
-16 0 obj
+15 0 obj
 << /Type /ExtGState /ca 0.1 >>
 endobj
 
-17 0 obj
+16 0 obj
 << /Type /ExtGState /CA 0.25 >>
 endobj
 
-18 0 obj
+17 0 obj
 <<
   /Type /Page
-  /Contents 19 0 R
+  /Contents 18 0 R
   /Parent 3 0 R
   /Resources <<
-    /ExtGState << /GS1 20 0 R /GS2 21 0 R >>
-    /Font << /F1 8 0 R /F2 10 0 R /F3 9 0 R /F4 13 0 R >>
+    /ExtGState << /GS1 19 0 R /GS2 20 0 R >>
+    /Font << /F1 8 0 R /F2 10 0 R /F3 9 0 R >>
   >>
 >>
 endobj
 
-19 0 obj
-<< /Length 3600 >> stream
+18 0 obj
+<< /Length 3575 >> stream
 BT
   1 0 0 1 72 704 Tm
   /F1 10 Tf
@@ -634,29 +615,29 @@ BT
   (.) Tj
   9.35 TL
   T*
-  ( bin) Tj
+  (+-- bin) Tj
   T*
-  (    app) Tj
+  (   +-- app) Tj
   T*
-  ( lib) Tj
+  (+-- lib) Tj
   T*
-  (    Config.rakumod) Tj
+  (|   +-- Config.rakumod) Tj
   T*
-  (    Demo) Tj
+  (|   +-- Demo) Tj
   T*
-  (        App.rakumod) Tj
+  (|       +-- App.rakumod) Tj
   T*
-  ( META6.json) Tj
+  (+-- META6.json) Tj
   T*
-  ( resources) Tj
+  (+-- resources) Tj
   T*
-  ( static) Tj
+  (+-- static) Tj
   T*
-  (    script) Tj
+  (|   +-- script) Tj
   T*
-  (    style) Tj
+  (|   +-- style) Tj
   T*
-  ( templates) Tj
+  (+-- templates) Tj
 ET
 q
   0 g
@@ -874,36 +855,31 @@ BT
   T*
   (complete with html! Now let's build out our authorization and functionality.) Tj
 ET
-BT
-  1 0 0 1 540 64 Tm
-  /F4 8 Tf
-  [ 5671 (Page 3 of 13) ] TJ
-ET
 endstream
 endobj
 
-20 0 obj
+19 0 obj
 << /Type /ExtGState /ca 0.1 >>
 endobj
 
-21 0 obj
+20 0 obj
 << /Type /ExtGState /CA 0.25 >>
 endobj
 
-22 0 obj
+21 0 obj
 <<
   /Type /Page
-  /Contents 23 0 R
+  /Contents 22 0 R
   /Parent 3 0 R
   /Resources <<
-    /ExtGState << /GS1 24 0 R /GS2 25 0 R >>
-    /Font << /F1 9 0 R /F2 8 0 R /F3 10 0 R /F4 13 0 R >>
+    /ExtGState << /GS1 23 0 R /GS2 24 0 R >>
+    /Font << /F1 9 0 R /F2 8 0 R /F3 10 0 R >>
   >>
 >>
 endobj
 
-23 0 obj
-<< /Length 3891 >> stream
+22 0 obj
+<< /Length 3825 >> stream
 BT
   1 0 0 1 72 704 Tm
   /F1 13 Tf
@@ -1146,36 +1122,31 @@ BT
   /F2 10 Tf
   (Okay! Let's build out an OAuth flow. Essentially what happens in OAuth is:) Tj
 ET
-BT
-  1 0 0 1 540 64 Tm
-  /F4 8 Tf
-  [ 5671 (Page 4 of 13) ] TJ
-ET
 endstream
 endobj
 
-24 0 obj
+23 0 obj
 << /Type /ExtGState /ca 0.1 >>
 endobj
 
-25 0 obj
+24 0 obj
 << /Type /ExtGState /CA 0.25 >>
 endobj
 
-26 0 obj
+25 0 obj
 <<
   /Type /Page
-  /Contents 27 0 R
+  /Contents 26 0 R
   /Parent 3 0 R
   /Resources <<
-    /ExtGState << /GS1 28 0 R /GS2 29 0 R >>
-    /Font << /F1 8 0 R /F2 10 0 R /F3 13 0 R >>
+    /ExtGState << /GS1 27 0 R /GS2 28 0 R >>
+    /Font << /F1 8 0 R /F2 10 0 R >>
   >>
 >>
 endobj
 
-27 0 obj
-<< /Length 3415 >> stream
+26 0 obj
+<< /Length 3349 >> stream
 BT
   1 0 0 1 82 704 Tm
   /F1 10 Tf
@@ -1334,36 +1305,31 @@ q
   77 112.15 458 473.15 re
   B
 Q
-BT
-  1 0 0 1 540 64 Tm
-  /F3 8 Tf
-  [ 5671 (Page 5 of 13) ] TJ
-ET
 endstream
 endobj
 
-28 0 obj
+27 0 obj
 << /Type /ExtGState /ca 0.1 >>
 endobj
 
-29 0 obj
+28 0 obj
 << /Type /ExtGState /CA 0.25 >>
 endobj
 
-30 0 obj
+29 0 obj
 <<
   /Type /Page
-  /Contents 31 0 R
+  /Contents 30 0 R
   /Parent 3 0 R
   /Resources <<
-    /ExtGState << /GS1 32 0 R /GS2 33 0 R >>
-    /Font << /F1 10 0 R /F2 8 0 R /F3 13 0 R >>
+    /ExtGState << /GS1 31 0 R /GS2 32 0 R >>
+    /Font << /F1 10 0 R /F2 8 0 R >>
   >>
 >>
 endobj
 
-31 0 obj
-<< /Length 4011 >> stream
+30 0 obj
+<< /Length 3945 >> stream
 BT
   1 0 0 1 82 704 Tm
   /F1 8.5 Tf
@@ -1557,36 +1523,31 @@ q
   77 108.85 458 71.1 re
   B
 Q
-BT
-  1 0 0 1 540 64 Tm
-  /F3 8 Tf
-  [ 5671 (Page 6 of 13) ] TJ
-ET
 endstream
 endobj
 
-32 0 obj
+31 0 obj
 << /Type /ExtGState /ca 0.1 >>
 endobj
 
-33 0 obj
+32 0 obj
 << /Type /ExtGState /CA 0.25 >>
 endobj
 
-34 0 obj
+33 0 obj
 <<
   /Type /Page
-  /Contents 35 0 R
+  /Contents 34 0 R
   /Parent 3 0 R
   /Resources <<
-    /ExtGState << /GS1 36 0 R /GS2 37 0 R >>
-    /Font << /F1 10 0 R /F2 8 0 R /F3 13 0 R >>
+    /ExtGState << /GS1 35 0 R /GS2 36 0 R >>
+    /Font << /F1 10 0 R /F2 8 0 R >>
   >>
 >>
 endobj
 
-35 0 obj
-<< /Length 3518 >> stream
+34 0 obj
+<< /Length 3452 >> stream
 BT
   1 0 0 1 82 704 Tm
   /F1 8.5 Tf
@@ -1766,36 +1727,31 @@ q
   77 112.7 458 99.15 re
   B
 Q
-BT
-  1 0 0 1 540 64 Tm
-  /F3 8 Tf
-  [ 5671 (Page 7 of 13) ] TJ
-ET
 endstream
 endobj
 
-36 0 obj
+35 0 obj
 << /Type /ExtGState /ca 0.1 >>
 endobj
 
-37 0 obj
+36 0 obj
 << /Type /ExtGState /CA 0.25 >>
 endobj
 
-38 0 obj
+37 0 obj
 <<
   /Type /Page
-  /Contents 39 0 R
+  /Contents 38 0 R
   /Parent 3 0 R
   /Resources <<
-    /ExtGState << /GS1 40 0 R /GS2 41 0 R >>
-    /Font << /F1 10 0 R /F2 8 0 R /F3 9 0 R /F4 13 0 R >>
+    /ExtGState << /GS1 39 0 R /GS2 40 0 R >>
+    /Font << /F1 10 0 R /F2 8 0 R /F3 9 0 R >>
   >>
 >>
 endobj
 
-39 0 obj
-<< /Length 3696 >> stream
+38 0 obj
+<< /Length 3630 >> stream
 BT
   1 0 0 1 82 704 Tm
   /F1 8.5 Tf
@@ -2019,36 +1975,31 @@ q
   77 108.85 458 24.35 re
   B
 Q
-BT
-  1 0 0 1 540 64 Tm
-  /F4 8 Tf
-  [ 5671 (Page 8 of 13) ] TJ
-ET
 endstream
 endobj
 
-40 0 obj
+39 0 obj
 << /Type /ExtGState /ca 0.1 >>
 endobj
 
-41 0 obj
+40 0 obj
 << /Type /ExtGState /CA 0.25 >>
 endobj
 
-42 0 obj
+41 0 obj
 <<
   /Type /Page
-  /Contents 43 0 R
+  /Contents 42 0 R
   /Parent 3 0 R
   /Resources <<
-    /ExtGState << /GS1 44 0 R /GS2 45 0 R >>
-    /Font << /F1 10 0 R /F2 8 0 R /F3 9 0 R /F4 13 0 R >>
+    /ExtGState << /GS1 43 0 R /GS2 44 0 R >>
+    /Font << /F1 10 0 R /F2 8 0 R /F3 9 0 R >>
   >>
 >>
 endobj
 
-43 0 obj
-<< /Length 3486 >> stream
+42 0 obj
+<< /Length 3420 >> stream
 BT
   1 0 0 1 82 704 Tm
   /F1 8.5 Tf
@@ -2220,36 +2171,31 @@ q
   77 112.15 458 71.1 re
   B
 Q
-BT
-  1 0 0 1 540 64 Tm
-  /F4 8 Tf
-  [ 5671 (Page 9 of 13) ] TJ
-ET
 endstream
 endobj
 
-44 0 obj
+43 0 obj
 << /Type /ExtGState /ca 0.1 >>
 endobj
 
-45 0 obj
+44 0 obj
 << /Type /ExtGState /CA 0.25 >>
 endobj
 
-46 0 obj
+45 0 obj
 <<
   /Type /Page
-  /Contents 47 0 R
+  /Contents 46 0 R
   /Parent 3 0 R
   /Resources <<
-    /ExtGState << /GS1 48 0 R /GS2 49 0 R >>
-    /Font << /F1 10 0 R /F2 8 0 R /F3 13 0 R >>
+    /ExtGState << /GS1 47 0 R /GS2 48 0 R >>
+    /Font << /F1 10 0 R /F2 8 0 R >>
   >>
 >>
 endobj
 
-47 0 obj
-<< /Length 3565 >> stream
+46 0 obj
+<< /Length 3498 >> stream
 BT
   1 0 0 1 82 704 Tm
   /F1 8.5 Tf
@@ -2423,36 +2369,31 @@ q
   77 105 458 342.25 re
   B
 Q
-BT
-  1 0 0 1 540 64 Tm
-  /F3 8 Tf
-  [ 6227 (Page 10 of 13) ] TJ
-ET
 endstream
 endobj
 
-48 0 obj
+47 0 obj
 << /Type /ExtGState /ca 0.1 >>
 endobj
 
-49 0 obj
+48 0 obj
 << /Type /ExtGState /CA 0.25 >>
 endobj
 
-50 0 obj
+49 0 obj
 <<
   /Type /Page
-  /Contents 51 0 R
+  /Contents 50 0 R
   /Parent 3 0 R
   /Resources <<
-    /ExtGState << /GS1 52 0 R /GS2 53 0 R >>
-    /Font << /F1 10 0 R /F2 8 0 R /F3 13 0 R >>
+    /ExtGState << /GS1 51 0 R /GS2 52 0 R >>
+    /Font << /F1 10 0 R /F2 8 0 R >>
   >>
 >>
 endobj
 
-51 0 obj
-<< /Length 4039 >> stream
+50 0 obj
+<< /Length 3972 >> stream
 BT
   1 0 0 1 82 704 Tm
   /F1 8.5 Tf
@@ -2634,36 +2575,31 @@ q
   77 112.7 458 314.2 re
   B
 Q
-BT
-  1 0 0 1 540 64 Tm
-  /F3 8 Tf
-  [ 6227 (Page 11 of 13) ] TJ
-ET
 endstream
 endobj
 
-52 0 obj
+51 0 obj
 << /Type /ExtGState /ca 0.1 >>
 endobj
 
-53 0 obj
+52 0 obj
 << /Type /ExtGState /CA 0.25 >>
 endobj
 
-54 0 obj
+53 0 obj
 <<
   /Type /Page
-  /Contents 55 0 R
+  /Contents 54 0 R
   /Parent 3 0 R
   /Resources <<
-    /ExtGState << /GS1 56 0 R /GS2 57 0 R >>
-    /Font << /F1 10 0 R /F2 8 0 R /F3 13 0 R >>
+    /ExtGState << /GS1 55 0 R /GS2 56 0 R >>
+    /Font << /F1 10 0 R /F2 8 0 R >>
   >>
 >>
 endobj
 
-55 0 obj
-<< /Length 3057 >> stream
+54 0 obj
+<< /Length 2990 >> stream
 BT
   1 0 0 1 82 704 Tm
   /F1 8.5 Tf
@@ -2833,33 +2769,28 @@ BT
   1 0 0 1 92 134.2 Tm
   (Visitors can log in via OAuth) Tj
 ET
-BT
-  1 0 0 1 540 64 Tm
-  /F3 8 Tf
-  [ 6227 (Page 12 of 13) ] TJ
-ET
 endstream
 endobj
 
-56 0 obj
+55 0 obj
 << /Type /ExtGState /ca 0.1 >>
 endobj
 
-57 0 obj
+56 0 obj
 << /Type /ExtGState /CA 0.25 >>
 endobj
 
-58 0 obj
+57 0 obj
 <<
   /Type /Page
-  /Contents 59 0 R
+  /Contents 58 0 R
   /Parent 3 0 R
-  /Resources << /Font << /F1 8 0 R /F2 13 0 R >> >>
+  /Resources << /Font << /F1 8 0 R >> >>
 >>
 endobj
 
-59 0 obj
-<< /Length 911 >> stream
+58 0 obj
+<< /Length 844 >> stream
 BT
   1 0 0 1 82 704 Tm
   /F1 10 Tf
@@ -2902,83 +2833,77 @@ q
     [ -18719 (here) ] TJ
   ET
 Q
-BT
-  1 0 0 1 540 64 Tm
-  /F2 8 Tf
-  [ 6227 (Page 13 of 13) ] TJ
-ET
 endstream
 endobj
 
 xref
-0 60
+0 59
 0000000000 65535 f 
 0000000015 00000 n 
 0000000190 00000 n 
 0000000251 00000 n 
 0000000430 00000 n 
-0000000633 00000 n 
-0000004212 00000 n 
-0000004259 00000 n 
-0000004307 00000 n 
-0000004415 00000 n 
-0000004522 00000 n 
-0000004609 00000 n 
-0000004716 00000 n 
-0000004826 00000 n 
-0000004933 00000 n 
-0000005129 00000 n 
-0000009599 00000 n 
-0000009647 00000 n 
-0000009696 00000 n 
-0000009892 00000 n 
-0000013546 00000 n 
-0000013594 00000 n 
-0000013643 00000 n 
-0000013839 00000 n 
-0000017784 00000 n 
-0000017832 00000 n 
-0000017881 00000 n 
-0000018067 00000 n 
-0000021536 00000 n 
-0000021584 00000 n 
-0000021633 00000 n 
-0000021819 00000 n 
-0000025884 00000 n 
-0000025932 00000 n 
-0000025981 00000 n 
-0000026167 00000 n 
-0000029739 00000 n 
-0000029787 00000 n 
-0000029836 00000 n 
-0000030032 00000 n 
-0000033782 00000 n 
-0000033830 00000 n 
-0000033879 00000 n 
-0000034075 00000 n 
-0000037615 00000 n 
-0000037663 00000 n 
-0000037712 00000 n 
-0000037898 00000 n 
-0000041517 00000 n 
-0000041565 00000 n 
-0000041614 00000 n 
-0000041800 00000 n 
-0000045893 00000 n 
-0000045941 00000 n 
-0000045990 00000 n 
-0000046176 00000 n 
-0000049287 00000 n 
-0000049335 00000 n 
-0000049384 00000 n 
-0000049508 00000 n 
+0000000622 00000 n 
+0000004154 00000 n 
+0000004201 00000 n 
+0000004249 00000 n 
+0000004357 00000 n 
+0000004464 00000 n 
+0000004551 00000 n 
+0000004658 00000 n 
+0000004768 00000 n 
+0000004953 00000 n 
+0000009357 00000 n 
+0000009405 00000 n 
+0000009454 00000 n 
+0000009639 00000 n 
+0000013268 00000 n 
+0000013316 00000 n 
+0000013365 00000 n 
+0000013550 00000 n 
+0000017429 00000 n 
+0000017477 00000 n 
+0000017526 00000 n 
+0000017701 00000 n 
+0000021104 00000 n 
+0000021152 00000 n 
+0000021201 00000 n 
+0000021376 00000 n 
+0000025375 00000 n 
+0000025423 00000 n 
+0000025472 00000 n 
+0000025647 00000 n 
+0000029153 00000 n 
+0000029201 00000 n 
+0000029250 00000 n 
+0000029435 00000 n 
+0000033119 00000 n 
+0000033167 00000 n 
+0000033216 00000 n 
+0000033401 00000 n 
+0000036875 00000 n 
+0000036923 00000 n 
+0000036972 00000 n 
+0000037147 00000 n 
+0000040699 00000 n 
+0000040747 00000 n 
+0000040796 00000 n 
+0000040971 00000 n 
+0000044997 00000 n 
+0000045045 00000 n 
+0000045094 00000 n 
+0000045269 00000 n 
+0000048313 00000 n 
+0000048361 00000 n 
+0000048410 00000 n 
+0000048523 00000 n 
 trailer
 <<
-  /ID [ <585169dd2258e6987bb1488e7847dddf> <585169dd2258e6987bb1488e7847dddf> ]
+  /ID [ <39341ce3438cd5d9e5b68a4dcf4718c4> <39341ce3438cd5d9e5b68a4dcf4718c4> ]
   /Info 1 0 R
   /Root 2 0 R
-  /Size 60
+  /Size 59
 >>
 startxref
-50472
+49420
 %%EOF

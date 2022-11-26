@@ -2,8 +2,8 @@
 %¥±ë¼
 1 0 obj
 <<
-  /CreationDate (D:20221109063004-06'00')
-  /Creator (Raku-6.d, PDF::Lite-0.0.12; PDF::Content-0.6.7; PDF-0.5.12)
+  /CreationDate (D:20221126100838-06'00')
+  /Creator (Raku-6.d, PDF::Lite-0.0.12; PDF::Content-0.6.8; PDF-0.5.12)
   /Producer (Pod::To::PDF::Lite-0.1.6)
 >>
 endobj
@@ -16,7 +16,7 @@ endobj
 <<
   /Type /Pages
   /Count 3
-  /Kids [ 4 0 R 13 0 R 18 0 R ]
+  /Kids [ 4 0 R 12 0 R 17 0 R ]
   /MediaBox [ 0 0 612 792 ]
 >>
 endobj
@@ -28,17 +28,17 @@ endobj
   /Parent 3 0 R
   /Resources <<
     /ExtGState << /GS1 6 0 R /GS2 7 0 R >>
-    /Font << /F1 8 0 R /F2 9 0 R /F3 10 0 R /F4 12 0 R >>
+    /Font << /F1 8 0 R /F2 9 0 R /F3 10 0 R >>
   >>
 >>
 endobj
 
 5 0 obj
-<< /Length 3748 >> stream
+<< /Length 3683 >> stream
 BT
   1 0 0 1 72 704 Tm
   /F1 10 Tf
-  (Building a Cro App - Part B building-a-cro-app-part-b rakudo, programming, systems) Tj
+  (Building a Cro App - Part 2 building-a-cro-app-part-2 rakudo, programming, systems) Tj
 ET
 BT
   1 0 0 1 72 682 Tm
@@ -217,11 +217,6 @@ BT
   T*
   (logs and correct any errors the app is having getting started.) Tj
 ET
-BT
-  1 0 0 1 540 64 Tm
-  /F4 8 Tf
-  [ 5115 (Page 1 of 3) ] TJ
-ET
 endstream
 endobj
 
@@ -265,27 +260,18 @@ endobj
 
 12 0 obj
 <<
-  /Type /Font
-  /Subtype /Type1
-  /BaseFont /Helvetica
-  /Encoding /WinAnsiEncoding
->>
-endobj
-
-13 0 obj
-<<
   /Type /Page
-  /Contents 14 0 R
+  /Contents 13 0 R
   /Parent 3 0 R
   /Resources <<
-    /ExtGState << /GS1 15 0 R /GS2 16 0 R >>
-    /Font << /F1 8 0 R /F2 9 0 R /F3 10 0 R /F4 17 0 R /F5 12 0 R >>
+    /ExtGState << /GS1 14 0 R /GS2 15 0 R >>
+    /Font << /F1 8 0 R /F2 9 0 R /F3 10 0 R /F4 16 0 R >>
   >>
 >>
 endobj
 
-14 0 obj
-<< /Length 3837 >> stream
+13 0 obj
+<< /Length 3772 >> stream
 BT
   1 0 0 1 72 704 Tm
   /F1 10 Tf
@@ -516,23 +502,18 @@ q
   77 117.1 458 24.35 re
   B
 Q
-BT
-  1 0 0 1 540 64 Tm
-  /F5 8 Tf
-  [ 5115 (Page 2 of 3) ] TJ
-ET
 endstream
 endobj
 
-15 0 obj
+14 0 obj
 << /Type /ExtGState /ca 0.1 >>
 endobj
 
-16 0 obj
+15 0 obj
 << /Type /ExtGState /CA 0.25 >>
 endobj
 
-17 0 obj
+16 0 obj
 <<
   /Type /Font
   /Subtype /Type1
@@ -541,20 +522,20 @@ endobj
 >>
 endobj
 
-18 0 obj
+17 0 obj
 <<
   /Type /Page
-  /Contents 19 0 R
+  /Contents 18 0 R
   /Parent 3 0 R
   /Resources <<
-    /ExtGState << /GS1 20 0 R /GS2 21 0 R >>
-    /Font << /F1 8 0 R /F2 10 0 R /F3 12 0 R >>
+    /ExtGState << /GS1 19 0 R /GS2 20 0 R >>
+    /Font << /F1 8 0 R /F2 10 0 R >>
   >>
 >>
 endobj
 
-19 0 obj
-<< /Length 2437 >> stream
+18 0 obj
+<< /Length 2372 >> stream
 BT
   1 0 0 1 72 704 Tm
   /F1 10 Tf
@@ -701,53 +682,47 @@ BT
   T*
   (paragraph.) Tj
 ET
-BT
-  1 0 0 1 540 64 Tm
-  /F3 8 Tf
-  [ 5115 (Page 3 of 3) ] TJ
-ET
 endstream
 endobj
 
-20 0 obj
+19 0 obj
 << /Type /ExtGState /ca 0.1 >>
 endobj
 
-21 0 obj
+20 0 obj
 << /Type /ExtGState /CA 0.25 >>
 endobj
 
 xref
-0 22
+0 21
 0000000000 65535 f 
 0000000015 00000 n 
 0000000190 00000 n 
 0000000251 00000 n 
 0000000359 00000 n 
-0000000551 00000 n 
-0000004352 00000 n 
-0000004399 00000 n 
-0000004447 00000 n 
-0000004555 00000 n 
-0000004662 00000 n 
-0000004749 00000 n 
-0000004856 00000 n 
-0000004963 00000 n 
-0000005170 00000 n 
-0000009061 00000 n 
-0000009109 00000 n 
-0000009158 00000 n 
-0000009268 00000 n 
-0000009454 00000 n 
-0000011945 00000 n 
-0000011993 00000 n 
+0000000540 00000 n 
+0000004276 00000 n 
+0000004323 00000 n 
+0000004371 00000 n 
+0000004479 00000 n 
+0000004586 00000 n 
+0000004673 00000 n 
+0000004780 00000 n 
+0000004976 00000 n 
+0000008802 00000 n 
+0000008850 00000 n 
+0000008899 00000 n 
+0000009009 00000 n 
+0000009184 00000 n 
+0000011610 00000 n 
+0000011658 00000 n 
 trailer
 <<
-  /ID [ <6ab1f539503c2fb39efeae69fb01e8b0> <6ab1f539503c2fb39efeae69fb01e8b0> ]
+  /ID [ <7f7fee283912ebc6bf4248638484f759> <7f7fee283912ebc6bf4248638484f759> ]
   /Info 1 0 R
   /Root 2 0 R
-  /Size 22
+  /Size 21
 >>
 startxref
-12042
+11707
 %%EOF

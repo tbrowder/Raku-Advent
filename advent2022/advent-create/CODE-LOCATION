@@ -1,0 +1,8 @@
+Code to be devloped and executed is in the subdir
+'dbks-cro-article'.
+
+The Makefile there will copy code to be mentioned in
+the article to subdir '../code' and commit and push
+it its repo on Github at <https://github.com/tbrowder/Raku-Advent>.
+.
+
