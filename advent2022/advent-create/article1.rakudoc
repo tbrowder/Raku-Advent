@@ -25,7 +25,7 @@ create beautiful digital documents for permanent storage.  The Raku
 consultants suggested converting the Markdown to B<Rakupod> which has as
 much potential expressive, typesetting power as Donald Knuth's TeX and
 its descendants (e.g., Leslie Lamport's LaTex, ConTeXt, and XeTeX).
-As opposed to those formats, the product is much easier to scan
+As opposed to those formats, the Rakupod product is much easier to scan
 visually and, although current Raku products are in the early stages
 of development, the existing Rakupod-to-PDF process can be
 retroactively improved by modifying the existing Rakupod when future
@@ -35,9 +35,9 @@ Side note: Conversion between various digital document formats has
 been a fruitful arena for academics as well as developers. Raku
 already has excellent converters from Rakupod to:
 
-=item Text
-=item Markdown
-=item HTML
+=item Text - B<Pod::To::Text>
+=item Markdown - B<Markdown::Grammar>
+=item HTML - B<Pod::To::HTML>
 
 Other non-Raku converters include L<Pandoc|https://pandoc.org>
 and L<Sphinx|https://sphinx-doc.org> which
@@ -70,12 +70,12 @@ down into two major paths:
 =item2 Transform PostScript to PDF (ps2pdf)
 
 Santa's IT group decided, given the current state of Raku modules, one
-of the easiest ways is to use David Warring's modules C<Pod::Lite> and
+of the easiest ways is to use David Warring's module C<Pod::Lite> and
 his very new module C<Pod::To:PDF::Lite> for the direct transformation.
 That module has encapsulated the huge, low-level collection
 of PDF utility routines into an easier-to-use interface to get
 typesetting quality output. (Note David is actively improving
-the module so keep an eye out for updates.)
+the module, so keep an eye out for updates.)
 
 But that route has a bump in the road: C<PDF::Lite> requires the user
 to provide the C<$=pod> object (technically it is the root node of a
@@ -96,15 +96,16 @@ my $pod-object = rakupod2object $pod-doc;
 # pod2pdf $pod-object # args ...
 =end code
 
-IT used the module in its wrapper program and added some convenience
+IT used the output PDF documents in its B<PDF::Lite> wrapper program, 
+B<combine-pdfs.raku>, and added some convenience
 input options. Raku is used World-wide so they allowed for various
 paper sizes and provide settings for US Letter and A4. Finally, they
 provided some other capabilities by customizing the C<PDF::Lite>
-object after the base document was created:
+object after the base document was created so it can:
 
 =item Combine multiple documents into a single one
 =item Provide a cover and a title for the unified document
-=item Provide a cover and a title for each of the two articles
+=item Provide a cover and a title for each of the child articles
 
 See program C<combine-pds.raku> for details, but the flow
 inside looks something like this:
@@ -135,12 +136,24 @@ for @pdfs -> $pdfdoc {
 # ...
 =end code
 
-In summary, developers finally have a direct and robust way to convert
+The end product is usable, but it would take a lot of tweaking to get
+it into better form. It is very useful for a quick solution, but
+modifying the source Markdown products for Santa's pet project
+needed something else: combine the pieces manually into one.
+
+The single document is named B<An-Apache-Cro-Web-Server-Recipe.md>.
+When modified with C<md2pod.raku> and C<pod2pdf.raku> it produces 
+B<An-Apache-Cro-Web-Server-Recipe.pdf>.
+
+=head2 Summary
+
+Thanks to Raku developers we finally have a direct and robust way to convert
 complex documents written in Rakupod into the universal PDF format.
 Using the semantics of Rakupod to affect the conversion to PDF will
 improve B<Pod::To::PDF::Lite> output to suit authors. Such
 configuration details would have to be carefully designed and
-implemented. For a simple example, here is a Rakupod block that could
+implemented as some kind of standard, perhaps as an RFC. 
+For a simple example of part of such a standard, here is a Rakupod block that could
 be used to define defaults for PDF output:
 
 =begin code
@@ -155,15 +168,18 @@ archivist Elves are happy for now!
 
 The final product of a real-world test of the Markdown-to-PDF
 work flow is a present from Santa to all the Raku-using folks
-around the world: a PDF version of the two-part article from Tony O'Dell (AKA @tony-o)
+around the world: a PDF version of a combined version of the 
+two-part article from Tony O'Dell (AKA @tony-o)
 for creating an Apache website with Jonathon's Raku C<Cro> libraries!
 
-Santa's 2022 PDF present to you: E<0x1F380> an-apache-cro-web-server.pdf E<0x1F380>
+Santa's 2022 PDF present to you: E<0x1F380> B<[An-Apache-Cro-Web-Server-Recipe.pdf]> E<0x1F380>
 
 (See the original posts at
 L<Part1|https://deathbykeystroke.com/articles/20220224-building-a-cro-app-part-1.html> and
 L<Part2|https://deathbykeystroke.com/articles/20220923-building-a-cro-app-part-b.html>.)
-See the PDF document at L<An Apache/Cro Web Server|https://github.com/tbrowder/Raku-Advent/blob/master/advent2022/code/an-apache-cro-web-server.pdf>.
+See the final PDF document at 
+L<An Apache/Cro Web Server
+|https://github.com/tbrowder/Raku-Advent/blob/master/advent2022/code/An-Apache-Cro-Web-Server-Recipe.pdf>.
 
 =head2 Santa's Epilogue
 
@@ -179,6 +195,6 @@ a well-known and popular Victorian author whose many works include
 I<The Pickwick Papers>, I<Oliver Twist>, I<David Copperfield>, I<Bleak
 House>, I<Great Expectations>, and I<A Tale of Two Cities>.
 
-2. Code used in this article is available at L<raku-advent-extras|https://github.com/tbrowder/Raku-Advent/blob/master/advent2022>
+2. Code used in this article is available at L<raku-advent-extras|https://github.com/tbrowder/Raku-Advent/blob/master/advent2022/code>
 
 =end pod

@@ -25,7 +25,7 @@ my @pdfs-in;
 >;
 
 # title of output pdf
-my $new-doc   = "an-apache-cro-web-server.pdf";
+my $new-doc   = "An-Apache-Cro-Web-Server.pdf";
 # title on cover
 my $new-title = "An Apache/CRO Web Server";
 
