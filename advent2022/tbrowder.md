@@ -36,7 +36,7 @@ The second step is Rakupod to PDF, but that step can be further broken down into
 
     * Transform PostScript to PDF (ps2pdf)
 
-Santa's IT group decided, given the current state of Raku modules, one of the easiest ways is to use David Warring's modules `Pod::Lite` and his very new module `Pod::To:PDF::Lite` for the direct transformation. That module has encapsulated the huge, low-level collection of PDF utility routines into an easier-to-use interface to get typesetting quality output. (Note David is actively improving the module so keep an eye out for updates.)
+Santa's IT group decided, given the current state of Raku modules, one of the easiest ways is to use David Warring's module `Pod::Lite` and his very new module `Pod::To:PDF::Lite` for the direct transformation. That module has encapsulated the huge, low-level collection of PDF utility routines into an easier-to-use interface to get typesetting quality output. (Note David is actively improving the module, so keep an eye out for updates.)
 
 But that route has a bump in the road: `PDF::Lite` requires the user to provide the `$=pod` object (technically it is the root node of a Raku tree-like sructure). That is easy if you're calling it inside a Raku program, but not if you're trying to access it from another program or module. Thus comes a new Raku module to the rescue. The clever algorithm that makes that possible is due to the Raku expert Vadim Belman (AKA @vrurg), and it has been extracted for easy use into a new module **RakupodObject**.
 
@@ -50,13 +50,13 @@ my $pod-object = rakupod2object $pod-doc;
 # pod2pdf $pod-object # args ...
 ```
 
-IT used the module in its wrapper program and added some convenience input options. Raku is used World-wide so they allowed for various paper sizes and provide settings for US Letter and A4. Finally, they provided some other capabilities by customizing the `PDF::Lite` object after the base document was created:
+IT used the module in its wrapper program, **combine-pdfs.raku**, and added some convenience input options. Raku is used World-wide so they allowed for various paper sizes and provide settings for US Letter and A4. Finally, they provided some other capabilities by customizing the `PDF::Lite` object after the base document was created so it can:
 
   * Combine multiple documents into a single one
 
   * Provide a cover and a title for the unified document
 
-  * Provide a cover and a title for each of the two articles
+  * Provide a cover and a title for each of the child articles
 
 See program `combine-pds.raku` for details, but the flow inside looks something like this:
 
@@ -86,7 +86,7 @@ for @pdfs -> $pdfdoc {
 # ...
 ```
 
-In summary, developers finally have a direct and robust way to convert complex documents written in Rakupod into the universal PDF format. Using the semantics of Rakupod to affect the conversion to PDF will improve **Pod::To::PDF::Lite** output to suit authors. Such configuration details would have to be carefully designed and implemented. For a simple example, here is a Rakupod block that could be used to define defaults for PDF output:
+In summary, developers finally have a direct and robust way to convert complex documents written in Rakupod into the universal PDF format. Using the semantics of Rakupod to affect the conversion to PDF will improve **Pod::To::PDF::Lite** output to suit authors. Such configuration details would have to be carefully designed and implemented as some kind of standard, perhaps as an RFC. For a simple example of part of such a standard, here is a Rakupod block that could be used to define defaults for PDF output:
 
     =begin pdf-config
     =Config :head1 :font<Times-RomanBold> :size<16> :align<center>:
@@ -95,11 +95,11 @@ In summary, developers finally have a direct and robust way to convert complex d
 
 But that project is for another day--Santa's archivist Elves are happy for now!
 
-The final product of a real-world test of the Markdown-to-PDF work flow is a present from Santa to all the Raku-using folks around the world: a PDF version of the two-part article from Tony O'Dell (AKA @tony-o) for creating an Apache website with Jonathon's Raku `Cro` libraries!
+The final product of a real-world test of the Markdown-to-PDF work flow is a present from Santa to all the Raku-using folks around the world: a PDF version of a combined version of the two-part article from Tony O'Dell (AKA @tony-o) for creating an Apache website with Jonathon's Raku `Cro` libraries!
 
-Santa's 2022 PDF present to you: 🎀 an-apache-cro-web-server.pdf 🎀
+Santa's 2022 PDF present to you: 🎀 An-Apache-Cro-Web-Server.pdf 🎀
 
-(See the original posts at [Part1](https://deathbykeystroke.com/articles/20220224-building-a-cro-app-part-1.html) and [Part2](https://deathbykeystroke.com/articles/20220923-building-a-cro-app-part-b.html).) See the PDF document at [An Apache/Cro Web Server](https://github.com/tbrowder/Raku-Advent/blob/master/advent2022/code/an-apache-cro-web-server.pdf).
+(See the original posts at [Part1](https://deathbykeystroke.com/articles/20220224-building-a-cro-app-part-1.html) and [Part2](https://deathbykeystroke.com/articles/20220923-building-a-cro-app-part-b.html).) See the PDF document at [An Apache/Cro Web Server](https://github.com/tbrowder/Raku-Advent/blob/master/advent2022/code/An-Apache-Cro-Web-Server.pdf).
 
 Santa's Epilogue
 ----------------
@@ -113,5 +113,5 @@ Footnotes
 
 1. *A Christmas Carol*, a short story by Charles Dickens (1812-1870), a well-known and popular Victorian author whose many works include *The Pickwick Papers*, *Oliver Twist*, *David Copperfield*, *Bleak House*, *Great Expectations*, and *A Tale of Two Cities*.
 
-2. Code used in this article is available at [raku-advent-extras](https://github.com/tbrowder/Raku-Advent/blob/master/advent2022)
+2. Code used in this article is available at [raku-advent-extras](https://github.com/tbrowder/Raku-Advent/blob/master/advent2022/code)
 
