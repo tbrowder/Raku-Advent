@@ -147,6 +147,7 @@ my $tot-pages = 0;
 my PDF::Lite::Page $page = $pdf.add-page;
 my $font  = $pdf.core-font(:family<Times-RomanBold>);
 my $font2 = $pdf.core-font(:family<Times-Roman>);
+# make this a sub: sub make-cover-page(PDF::Lite::Page $page, |c) is export
 $page.text: -> $txt {
     my ($text, $baseline);
     $baseline = 7*72;

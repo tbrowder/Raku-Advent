@@ -4,6 +4,12 @@ use Pod::To::PDF::Lite;
 use PDF::Lite;
 use Text::Utils :strip-comment;
 
+sub make-cover-page(PDF::Lite::Page $page, $debug) is export {
+}
+
+sub select-font() {
+}
+
 sub read-pdf-list($fnam, :$debug --> List) is export {
     my @list;
     for $fnam.IO.lines -> $line is copy {
@@ -47,7 +53,11 @@ sub paginate($pdf,
         ++$page-num;
 
         my PDF::Content $gfx = $page.gfx;
-        my @position = $gfx.width - $margin, $margin - $font-size;
+        # need some vertical whitespace here
+        my $vspace = 0.4 * $font-size;
+        #my @position = $gfx.width - $margin, $margin - $font-size;
+        my @position = $gfx.width - $margin, $margin - $font-size - $vspace;
+
         #my $text = "Page {++$page-num} of $page-count";
         my $text = "Page $page-num of $page-count";
         $gfx.print: $text, :@position, :$font, :$font-size, :$align;
