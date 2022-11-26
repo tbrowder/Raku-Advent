@@ -1,9 +1,0 @@
-=begin pod
-=begin code
-. bin
-|
-+-- foo
-|
-+-- bar
-=end code
-=end pod

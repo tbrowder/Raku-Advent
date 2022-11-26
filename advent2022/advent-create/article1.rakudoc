@@ -158,12 +158,12 @@ work flow is a present from Santa to all the Raku-using folks
 around the world: a PDF version of the two-part article from Tony O'Dell (AKA @tony-o)
 for creating an Apache website with Jonathon's Raku C<Cro> libraries!
 
-Santa's present to you: E<0x1F380> an-apache-cro-web-server.pdf E<0x1F380>
+Santa's 2022 PDF present to you: E<0x1F380> an-apache-cro-web-server.pdf E<0x1F380>
 
 (See the original posts at
 L<Part1|https://deathbykeystroke.com/articles/20220224-building-a-cro-app-part-1.html> and
 L<Part2|https://deathbykeystroke.com/articles/20220923-building-a-cro-app-part-b.html>.)
-See the PDF document at L<An Apache/Cro Web Server|https://github.com/tbrowder/raku-advent-extras/blob/master/2022/an-apache-cro-web-server.pdf>.
+See the PDF document at L<An Apache/Cro Web Server|https://github.com/tbrowder/Raku-Advent/blob/master/advent2022/code/an-apache-cro-web-server.pdf>.
 
 =head2 Santa's Epilogue
 
@@ -179,6 +179,6 @@ a well-known and popular Victorian author whose many works include
 I<The Pickwick Papers>, I<Oliver Twist>, I<David Copperfield>, I<Bleak
 House>, I<Great Expectations>, and I<A Tale of Two Cities>.
 
-2. Code used in this article is available at L<raku-advent-extras|https://github.com/tbrowder/raku-advent-extras/blob/master/2022>
+2. Code used in this article is available at L<raku-advent-extras|https://github.com/tbrowder/Raku-Advent/blob/master/advent2022>
 
 =end pod
