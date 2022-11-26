@@ -5,15 +5,15 @@ Santa's world was increasingly going high-tech, and his IT department was polish
 
 One problem had initially stymied them, but consultants from the Raku community came to their aid. (As you may recall, IT had become primarily a Raku shop because of the power of the language for all their programming needs ranging from shop management to long-range planning.) The problem was converting the digital output from the OCR hardware to final PDF products for the factories and toy makers. The growing influence of [Github](https://github.com/tbrowder/GraphicsMagick) and its Github-flavored Markdown format had resulted in IT's post-OCR software converting the text into that format.
 
-That was fine for initial use for production planning, but for archival purposes it lacked the capability to provide textual hints to create beautiful digital documents for permanent storage. The Raku consultants suggested converting the Markdown to **Rakupod** which has as much potential expressive, typesetting power as Donald Knuth's TeX and its descendants (e.g., Leslie Lamport's LaTex, ConTeXt, and XeTeX). As opposed to those formats, the product is much easier to scan visually and, although current Raku products are in the early stages of development, the existing Rakupod-to-PDF process can be retroactively improved by modifying the existing Rakupod when future products are improved.
+That was fine for initial use for production planning, but for archival purposes it lacked the capability to provide textual hints to create beautiful digital documents for permanent storage. The Raku consultants suggested converting the Markdown to **Rakupod** which has as much potential expressive, typesetting power as Donald Knuth's TeX and its descendants (e.g., Leslie Lamport's LaTex, ConTeXt, and XeTeX). As opposed to those formats, the Rakupod product is much easier to scan visually and, although current Raku products are in the early stages of development, the existing Rakupod-to-PDF process can be retroactively improved by modifying the existing Rakupod when future products are improved.
 
 Side note: Conversion between various digital document formats has been a fruitful arena for academics as well as developers. Raku already has excellent converters from Rakupod to:
 
-  * Text
+  * Text - **Pod::To::Text**
 
-  * Markdown
+  * Markdown - **Markdown::Grammar**
 
-  * HTML
+  * HTML - **Pod::To::HTML**
 
 Other non-Raku converters include [Pandoc](https://pandoc.org) and [Sphinx](https://sphinx-doc.org) which strive to be *universal* converters with varying degrees of fidelity depending upon the input or output formats chosen. (However, this author has not been able to find an output format in that set capable of centering text without major effort. That includes Markdown which can only center text through use of inserted html code.)
 
@@ -50,7 +50,7 @@ my $pod-object = rakupod2object $pod-doc;
 # pod2pdf $pod-object # args ...
 ```
 
-IT used the module in its wrapper program, **combine-pdfs.raku**, and added some convenience input options. Raku is used World-wide so they allowed for various paper sizes and provide settings for US Letter and A4. Finally, they provided some other capabilities by customizing the `PDF::Lite` object after the base document was created so it can:
+IT used the output PDF documents in its **PDF::Lite** wrapper program, **combine-pdfs.raku**, and added some convenience input options. Raku is used World-wide so they allowed for various paper sizes and provide settings for US Letter and A4. Finally, they provided some other capabilities by customizing the `PDF::Lite` object after the base document was created so it can:
 
   * Combine multiple documents into a single one
 
@@ -86,7 +86,14 @@ for @pdfs -> $pdfdoc {
 # ...
 ```
 
-In summary, developers finally have a direct and robust way to convert complex documents written in Rakupod into the universal PDF format. Using the semantics of Rakupod to affect the conversion to PDF will improve **Pod::To::PDF::Lite** output to suit authors. Such configuration details would have to be carefully designed and implemented as some kind of standard, perhaps as an RFC. For a simple example of part of such a standard, here is a Rakupod block that could be used to define defaults for PDF output:
+The end product is usable, but it would take a lot of tweaking to get it into better form. It is very useful for a quick solution, but modifying the source Markdown products for Santa's pet project needed something else: combine the pieces manually into one.
+
+The single document is named **An-Apache-Cro-Web-Server-Recipe.md**. When modified with `md2pod.raku` and `pod2pdf.raku` it produces **An-Apache-Cro-Web-Server-Recipe.pdf**.
+
+Summary
+-------
+
+Thanks to Raku developers we finally have a direct and robust way to convert complex documents written in Rakupod into the universal PDF format. Using the semantics of Rakupod to affect the conversion to PDF will improve **Pod::To::PDF::Lite** output to suit authors. Such configuration details would have to be carefully designed and implemented as some kind of standard, perhaps as an RFC. For a simple example of part of such a standard, here is a Rakupod block that could be used to define defaults for PDF output:
 
     =begin pdf-config
     =Config :head1 :font<Times-RomanBold> :size<16> :align<center>:
@@ -97,9 +104,9 @@ But that project is for another day--Santa's archivist Elves are happy for now!
 
 The final product of a real-world test of the Markdown-to-PDF work flow is a present from Santa to all the Raku-using folks around the world: a PDF version of a combined version of the two-part article from Tony O'Dell (AKA @tony-o) for creating an Apache website with Jonathon's Raku `Cro` libraries!
 
-Santa's 2022 PDF present to you: 🎀 An-Apache-Cro-Web-Server.pdf 🎀
+Santa's 2022 PDF present to you: 🎀 **[An-Apache-Cro-Web-Server-Recipe.pdf]** 🎀
 
-(See the original posts at [Part1](https://deathbykeystroke.com/articles/20220224-building-a-cro-app-part-1.html) and [Part2](https://deathbykeystroke.com/articles/20220923-building-a-cro-app-part-b.html).) See the PDF document at [An Apache/Cro Web Server](https://github.com/tbrowder/Raku-Advent/blob/master/advent2022/code/An-Apache-Cro-Web-Server.pdf).
+(See the original posts at [Part1](https://deathbykeystroke.com/articles/20220224-building-a-cro-app-part-1.html) and [Part2](https://deathbykeystroke.com/articles/20220923-building-a-cro-app-part-b.html).) See the final PDF document at [An Apache/Cro Web Server](https://github.com/tbrowder/Raku-Advent/blob/master/advent2022/code/An-Apache-Cro-Web-Server-Recipe.pdf).
 
 Santa's Epilogue
 ----------------
