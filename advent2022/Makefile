@@ -1,6 +1,7 @@
 YEAR    := 2022
 ADIR    := /usr/local/git-repos/my-public-modules/Raku-Advent/advent$(YEAR)
 THISDIR := $(ADIR)
+GITMSG  := update
 
 ART1NAM := tbrowder.md
 ART1SRC := $(ADIR)/advent-create/article1.rakudoc
@@ -17,5 +18,5 @@ all: art1
 
 art1:
 	raku --doc=Markdown $(ART1SRC)                             > $(ART1MD)
-	(cd $(ADIR); git commit $(ART1MD); git push)
+	(cd $(ADIR); git commit $(ART1MD) -m"$(GITMSG)"; git push)
 	echo "See file tbrowder.md"
