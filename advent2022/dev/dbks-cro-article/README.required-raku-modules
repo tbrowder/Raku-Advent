@@ -7,3 +7,4 @@ PDF::Font::Loader;
 PDF::Font::Loader;
 Pod::To::PDF::Lite:ver<0.1.6>;
 RakupodObject;
+Text::Utils;

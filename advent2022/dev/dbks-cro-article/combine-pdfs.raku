@@ -5,6 +5,7 @@ use PDF::Font::Loader;
 
 use lib "./lib";
 use Vars;
+use Subs;
 
 my enum Paper <Letter A4>;
 my $debug   = 0;
@@ -16,7 +17,9 @@ my $margin  = 1 * 72; # inches => PS points
 my Paper $paper  = Letter;
 my $page-numbers = False;
 
-my @pdfs-in = <
+
+my @pdfs-in;
+@pdfs-in = <
     pdf-docs/Creating-a-Cro-App-Part1-by-Tony-O.pdf
     pdf-docs/Creating-a-Cro-App-Part2-by-Tony-O.pdf
 >;
@@ -32,11 +35,8 @@ if not @*ARGS.elems {
       
     Args
       pdf[=X] - list of pdf docs to combine [default: an internal list]
-              - where X is either
-                  + a comma-separated list of paths
-                    to existing PDF documents to be combined
-                        OR
-                  + the name of a file listing PDF docs to be combined,
+                    OR
+              - where X is the name of a file listing PDF docs to be combined,
                     one name per line, comments and blank lines are
                     ignored
        
@@ -115,6 +115,7 @@ for @*ARGS {
         if $0.defined {
             note "WARNING: mode 'pdf=X' is  NYI";
             note "         Exiting..."; exit;
+            @pdfs-in = read-pdf-list ~$0;
         }
         else {
             say "Using internal list of PDF files:";
