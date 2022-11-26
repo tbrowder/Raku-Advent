@@ -1,21 +1,18 @@
-
-credits
-
-Pod to Markdown
-PDF to text
-
 PDF useful online and for printing
 
 mention advantages of pdf, especially for visual problems
 + also text to Braille
 
-
-get font Source Code Pro in ttf format for PDF::Lite for tony-o
-
-
 #=============================================================
 # COMPLETED
 #=============================================================
+
+Pod to Markdown
+PDF to text
+
+credits
+
+get font Source Code Pro in ttf format for PDF::Lite for tony-o
 
 get @vrurg's name and current position
 get Markdown::Grammar author's name, etc.
