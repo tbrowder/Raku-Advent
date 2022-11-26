@@ -3,7 +3,7 @@ Santa and the Rakupod Wranglers
 
 Santa's world was increasingly going high-tech, and his IT department was polishing off its new process that could take the millions of letters received from boys and girls around the world, scan them into digital form with state-of-the-art optical character recognition hardware, and produce outputs that could greatly streamline the Santa Corporation's production for Christmas delivery.
 
-One problem had initially stymied them, but consultants from the Raku community came to their aid. (As you may recall, IT had become primarily a Raku shop because of the power of the language for all their programming needs ranging from shop management to long-range planning.) The problem was converting the digital output from the OCR hardware to final PDF products for the factories and toy makers. The growing influence of [https://github.com](https://github.com) and its Github-flavored Markdown format had resulted in IT's post-OCR software converting the text into that format.
+One problem had initially stymied them, but consultants from the Raku community came to their aid. (As you may recall, IT had become primarily a Raku shop because of the power of the language for all their programming needs ranging from shop management to long-range planning.) The problem was converting the digital output from the OCR hardware to final PDF products for the factories and toy makers. The growing influence of [Github](https://github.com/tbrowder/GraphicsMagick) and its Github-flavored Markdown format had resulted in IT's post-OCR software converting the text into that format.
 
 That was fine for initial use for production planning, but for archival purposes it lacked the capability to provide textual hints to create beautiful digital documents for permanent storage. The Raku consultants suggested converting the Markdown to **Rakupod** which has as much potential expressive, typesetting power as Donald Knuth's TeX and its descendants (e.g., Leslie Lamport's LaTex, ConTeXt, and XeTeX). As opposed to those formats, the product is much easier to scan visually and, although current Raku products are in the early stages of development, the existing Rakupod-to-PDF process can be retroactively improved by modifying the existing Rakupod when future products are improved.
 
@@ -81,13 +81,12 @@ for @pdfs -> $pdfdoc {
     my $npages = $pdf2.page-count;
     1..$npages -> $page-num {
         $pdf.add-page: $pdf2.page($page-num);
-    }    
+    }
 }
-
-TO BE ADDED
+# ...
 ```
 
-In summary, developers finally have a direct and robust way to convert complex documents written in Rakupod into the universal PDF format. Using the semantics of Rakupod to affect the conversion to PDF will improve **Pod::To::PDF::Lite** output to suit authors. For example, here is a Rakupod block that could be used to define defaults for PDF output:
+In summary, developers finally have a direct and robust way to convert complex documents written in Rakupod into the universal PDF format. Using the semantics of Rakupod to affect the conversion to PDF will improve **Pod::To::PDF::Lite** output to suit authors. Such configuration details would have to be carefully designed and implemented. For a simple example, here is a Rakupod block that could be used to define defaults for PDF output:
 
     =begin pdf-config
     =Config :head1 :font<Times-RomanBold> :size<16> :align<center>:
@@ -96,7 +95,11 @@ In summary, developers finally have a direct and robust way to convert complex d
 
 But that project is for another day--Santa's archivist Elves are happy for now!
 
-The final product of a real-world test of the Markdown-to-PDF work flow is a present from Santa to all the Raku-using folks around the world: a PDF version of the two-part article from Tony O'Dell (AKA @tony-o) for creating an Apache website with Jonathon's Raku `Cro` libraries! (See the original posts at [Part1](https://deathbykeystroke.com/articles/20220224-building-a-cro-app-part-1.html) and [Part2](https://deathbykeystroke.com/articles/20220923-building-a-cro-app-part-b.html).) See the PDF document at [An Apache/Cro Web Server](https://github.com/tbrowder/raku-advent-extras/blob/master/2022/an-apache-cro-web-server.pdf). (See also Footnote 3 about a lurking bug in the POD-to-PDF tool chain.)
+The final product of a real-world test of the Markdown-to-PDF work flow is a present from Santa to all the Raku-using folks around the world: a PDF version of the two-part article from Tony O'Dell (AKA @tony-o) for creating an Apache website with Jonathon's Raku `Cro` libraries!
+
+Santa's present to you: 🎀 an-apache-cro-web-server.pdf 🎀
+
+(See the original posts at [Part1](https://deathbykeystroke.com/articles/20220224-building-a-cro-app-part-1.html) and [Part2](https://deathbykeystroke.com/articles/20220923-building-a-cro-app-part-b.html).) See the PDF document at [An Apache/Cro Web Server](https://github.com/tbrowder/raku-advent-extras/blob/master/2022/an-apache-cro-web-server.pdf).
 
 Santa's Epilogue
 ----------------
@@ -111,26 +114,4 @@ Footnotes
 1. *A Christmas Carol*, a short story by Charles Dickens (1812-1870), a well-known and popular Victorian author whose many works include *The Pickwick Papers*, *Oliver Twist*, *David Copperfield*, *Bleak House*, *Great Expectations*, and *A Tale of Two Cities*.
 
 2. Code used in this article is available at [raku-advent-extras](https://github.com/tbrowder/raku-advent-extras/blob/master/2022)
-
-3. There is a bug in the POD-to-PDF tool chain that causes some characters in a `=begin code / =end code` block not to be rendered. For example, this input in Tony's article, Part 1, in the pod source is erroneously rendered here as
-
-    .
-    +-- bin
-    |   +-- app
-    +-- lib
-    +-- META6.json
-    +-- resources
-    +-- templates
-
-and it renders in PDF as
-
-    .
-     bin
-     app
-     lib
-     META6.json
-     resources
-     templates
-
-An issue has been filed with `Pod::To::PDF::Lite`, but David thinks the issue may be with the core Rakupod converter. The investigation continues.
 
