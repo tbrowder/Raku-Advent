@@ -721,8 +721,8 @@ Our template to match (`templates/main.crotmp`):
 Okay. That's it! You have a working cro app (or should)! Let's review what we've done in this app:
 
 1. Visitors can log in via OAuth
-1. Anyone can view posts/responses
-1. Registered users can create new posts and respond
+2. Anyone can view posts/responses
+3. Registered users can create new posts and respond
 
 Seems like a lot of code for these three basic functions (and it is) but bulletin boards can get even more complicated very quickly.
 
@@ -733,7 +733,7 @@ configuring apache to reverse proxy to our cro app and configuring systemd to en
 Note: The full code for this demo can be found [here](https://github.com/tony-o/blog-cro)
 
 ## Part 2 Deploying the Cro app as an apache reverse proxy
- 
+
 We have our Cro app built, authenticating, and doing all kinds of fun stuff.  Let's take a look at deploying this bad wamma jamma!
 
 To do so we'll do the follow:

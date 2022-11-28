@@ -28,7 +28,7 @@ my $page-numbers = False;
 
 if not @*ARGS.elems {
     print qq:to/HERE/;
-    Usage: {$*PROGRAM.basename} go [...options...]
+    Usage: {$*PROGRAM.basename} go | pod=X [...options...]
 
     Options
       paper=X    - Paper name: A4, Letter [default: Letter]
@@ -47,6 +47,8 @@ my $width  =  8.5 * 72;
 # for A4
 # $height =; # 11.7 in
 # $width = ; #  8.3 in
+
+my $podfil;
 
 for @*ARGS {
     when /^ :i n[umbers]? / {
@@ -82,6 +84,36 @@ for @*ARGS {
         $margin = +$0 * 72;
     }
     when /^ :i d / { ++$debug }
+    when /^ :i pod '=' (\S+) / {
+         $podfil = ~$0.IO;
+    }
+}
+
+die "FATAL: '$podfil' is not a valid file" if not $podfil.IO.r;
+if $podfil.IO.r {
+    my $pdffil = $podfil;
+    $pdffil ~~ s/'.pod' $/.pdf/;
+    $pdffil ~~ s/^'pod-src'/pdf-docs/;
+
+    # Extract the pod object from the pod
+    if $debug {
+        note "DEBUG pod file: '$podfil'"; exit;
+    }
+
+    my $pod-obj = extract-rakupod-object $podfil.IO;
+
+    if $debug {
+        say $pod-obj.raku;
+        say "DEBUG exit"; exit;
+    }
+
+    # Then convert the pod object to pdf
+    my PDF::Lite $pdf = pod2pdf $pod-obj,
+        :$height, :$width, :$margin, :$page-numbers; #, :@fonts;
+
+    $pdf.save-as: $pdffil;
+    say "See output pdf file: $pdffil";
+    exit;
 }
 
 for %md.keys -> $md {
@@ -97,10 +129,8 @@ for %md.keys -> $md {
     }
 
     # Then convert the pod object to pdf
-    my PDF::Lite $pdf = pod2pdf $pod-obj, 
+    my PDF::Lite $pdf = pod2pdf $pod-obj,
         :$height, :$width, :$margin, :$page-numbers; #, :@fonts;
-
-    # manipulate the PDF some more
 
     $pdf.save-as: $pdf-fil;
     say "See output pdf file: $pdf-fil";
