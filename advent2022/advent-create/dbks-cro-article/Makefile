@@ -5,7 +5,7 @@ THISDIR := $(ADIR)/advent-create/dbks-cro-article
 
 TODIR := /usr/local/git-repos/my-public-modules/Raku-Advent/advent$(YEAR)/code
 PDF   := An-Apache-Cro-Web-Server.pdf
-PDF2  := An-Apache-Cro-Web-Server-Recipe.pdf
+PDF2  := pdf-docs/An-Apache-Cro-Web-Server-Recipe.pdf
 
 FILES := combine-pdfs.raku md2pod.raku pod2pdf.raku $(PDF) $(PDF2)
 
