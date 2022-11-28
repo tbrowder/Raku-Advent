@@ -36,7 +36,7 @@ The second step is Rakupod to PDF, but that step can be further broken down into
 
     * Transform PostScript to PDF (ps2pdf)
 
-Santa's IT group decided, given the current state of Raku modules, one of the easiest ways is to use David Warring's module `Pod::Lite` and his very new module `Pod::To:PDF::Lite` for the direct transformation. That module has encapsulated the huge, low-level collection of PDF utility routines into an easier-to-use interface to get typesetting quality output. (Note David is actively improving the module, so keep an eye out for updates.)
+Santa's IT group decided, given the current state of Raku modules, one of the easiest ways is to use David Warring's module **Pod::Lite** and his very new module **Pod::To:PDF::Lite** for the direct transformation. That module has encapsulated the huge, low-level collection of PDF utility routines into an easier-to-use interface to get typesetting quality output. (Note David is actively improving the module, so keep an eye out for updates.)
 
 But that route has a bump in the road: `PDF::Lite` requires the user to provide the `$=pod` object (technically it is the root node of a Raku tree-like sructure). That is easy if you're calling it inside a Raku program, but not if you're trying to access it from another program or module. Thus comes a new Raku module to the rescue. The clever algorithm that makes that possible is due to the Raku expert Vadim Belman (AKA @vrurg), and it has been extracted for easy use into a new module **RakupodObject**.
 
@@ -50,7 +50,7 @@ my $pod-object = rakupod2object $pod-doc;
 # pod2pdf $pod-object # args ...
 ```
 
-IT used the output PDF documents in its **PDF::Lite** wrapper program, **combine-pdfs.raku**, and added some convenience input options. Raku is used World-wide so they allowed for various paper sizes and provide settings for US Letter and A4. Finally, they provided some other capabilities by customizing the `PDF::Lite` object after the base document was created so it can:
+IT used the output PDF documents in its `PDF::Lite` wrapper program, **combine-pdfs.raku**, and added some convenience input options. Raku is used World-wide so they allowed for various paper sizes and provide settings for US Letter and A4. Finally, they provided some other capabilities by customizing the `PDF::Lite` object after the base document was created so it can:
 
   * Combine multiple documents into a single one
 
@@ -86,9 +86,9 @@ for @pdfs -> $pdfdoc {
 # ...
 ```
 
-The end product is usable, but it would take a lot of tweaking to get it into better form. It is very useful for a quick solution, but modifying the source Markdown products for Santa's pet project needed something else: combine the pieces manually into one (see Footnote 3).
+The end product is usable, but it would take a lot of tweaking to get it into better form for more formal PDF projects. However, it is very useful for a quick solution (see Footnote 3).
 
-The single document is named **An-Apache-Cro-Web-Server-Recipe.md** and minor sructural changes were made to make internal rather than external references to the two parts. When modified with `md2pod.raku` and `pod2pdf.raku` it produces **An-Apache-Cro-Web-Server-Recipe.pdf**.
+Modifying the source Markdown products for Santa's pet project needed something else: combine the pieces manually into one The single document is named **An-Apache-Cro-Web-Server-Recipe.md** and minor sructural changes were made to make internal rather than external references to the two parts. When modified with `md2pod.raku` and `pod2pdf.raku` it produces **An-Apache-Cro-Web-Server-Recipe.pdf**.
 
 Summary
 -------
@@ -106,7 +106,7 @@ The final product of a real-world test of the Markdown-to-PDF work flow is a pre
 
 Santa's 2022 PDF present to you: 🎀 **[An-Apache-Cro-Web-Server-Recipe.pdf]** 🎀
 
-(See the original posts at [Part1](https://deathbykeystroke.com/articles/20220224-building-a-cro-app-part-1.html) and [Part2](https://deathbykeystroke.com/articles/20220923-building-a-cro-app-part-b.html).) See the final PDF document at [An Apache/Cro Web Server](https://github.com/tbrowder/Raku-Advent/blob/master/advent2022/code/An-Apache-Cro-Web-Server-Recipe.pdf).
+(See Tony's original posts at [Part1](https://deathbykeystroke.com/articles/20220224-building-a-cro-app-part-1.html) and [Part2](https://deathbykeystroke.com/articles/20220923-building-a-cro-app-part-b.html).) See the final PDF document at [An Apache/Cro Web Server](https://github.com/tbrowder/Raku-Advent/blob/master/advent2022/code/An-Apache-Cro-Web-Server-Recipe.pdf).
 
 Santa's Epilogue
 ----------------
@@ -122,5 +122,5 @@ Footnotes
 
 2. Code used in this article is available at [raku-advent-extras](https://github.com/tbrowder/Raku-Advent/blob/master/advent2022/code)
 
-3. See the author's module-in-work [PDF::Combiner](https://github.com/tbrowder/PDF-Combiner). File an issue if would like use it and what features you would like to see added.
+3. See the author's module-in-work [PDF::Combiner](https://github.com/tbrowder/PDF-Combiner). File an issue if would like to use it and what features you would like to see added.
 
