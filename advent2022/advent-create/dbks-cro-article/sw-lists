@@ -1,8 +1,0 @@
-# switch or part name : w h (width, height, inches)
-rectangles :
-  switch w h
-  pane
-sw-1 :
-sw-2 : 
-sw-3
-sw-4 :

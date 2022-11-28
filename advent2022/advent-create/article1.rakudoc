@@ -107,7 +107,7 @@ object after the base document was created so it can:
 =item Provide a cover and a title for the unified document
 =item Provide a cover and a title for each of the child articles
 
-See program C<combine-pds.raku> for details, but the flow
+See program C<combine-pdgs.raku> for details, but the flow
 inside looks something like this:
 
 =begin code :lang<raku>
@@ -139,9 +139,11 @@ for @pdfs -> $pdfdoc {
 The end product is usable, but it would take a lot of tweaking to get
 it into better form. It is very useful for a quick solution, but
 modifying the source Markdown products for Santa's pet project
-needed something else: combine the pieces manually into one.
+needed something else: combine the pieces manually into one (see Footnote 3).
 
-The single document is named B<An-Apache-Cro-Web-Server-Recipe.md>.
+The single document is named B<An-Apache-Cro-Web-Server-Recipe.md>
+and minor sructural changes were made to make internal rather than
+external references to the two parts.
 When modified with C<md2pod.raku> and C<pod2pdf.raku> it produces 
 B<An-Apache-Cro-Web-Server-Recipe.pdf>.
 
@@ -163,7 +165,7 @@ be used to define defaults for PDF output:
 =end pdf-config
 =end code
 
-But that project is for another day--Santa's
+But that project is for another dayE<0x2014>Santa's
 archivist Elves are happy for now!
 
 The final product of a real-world test of the Markdown-to-PDF
@@ -196,5 +198,8 @@ I<The Pickwick Papers>, I<Oliver Twist>, I<David Copperfield>, I<Bleak
 House>, I<Great Expectations>, and I<A Tale of Two Cities>.
 
 2. Code used in this article is available at L<raku-advent-extras|https://github.com/tbrowder/Raku-Advent/blob/master/advent2022/code>
+
+3. See the author's module-in-work L<PDF::Combiner|https://github.com/tbrowder/PDF-Combiner>. 
+File an issue if would like use it and what features you would like to see added.
 
 =end pod
