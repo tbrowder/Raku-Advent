@@ -58,7 +58,7 @@ IT used the output PDF documents in its **PDF::Lite** wrapper program, **combine
 
   * Provide a cover and a title for each of the child articles
 
-See program `combine-pds.raku` for details, but the flow inside looks something like this:
+See program `combine-pdgs.raku` for details, but the flow inside looks something like this:
 
 ```raku
 use PDF::Lite;
@@ -86,9 +86,9 @@ for @pdfs -> $pdfdoc {
 # ...
 ```
 
-The end product is usable, but it would take a lot of tweaking to get it into better form. It is very useful for a quick solution, but modifying the source Markdown products for Santa's pet project needed something else: combine the pieces manually into one.
+The end product is usable, but it would take a lot of tweaking to get it into better form. It is very useful for a quick solution, but modifying the source Markdown products for Santa's pet project needed something else: combine the pieces manually into one (see Footnote 3).
 
-The single document is named **An-Apache-Cro-Web-Server-Recipe.md**. When modified with `md2pod.raku` and `pod2pdf.raku` it produces **An-Apache-Cro-Web-Server-Recipe.pdf**.
+The single document is named **An-Apache-Cro-Web-Server-Recipe.md** and minor sructural changes were made to make internal rather than external references to the two parts. When modified with `md2pod.raku` and `pod2pdf.raku` it produces **An-Apache-Cro-Web-Server-Recipe.pdf**.
 
 Summary
 -------
@@ -100,7 +100,7 @@ Thanks to Raku developers we finally have a direct and robust way to convert com
     =Config :head2 :font<Times-RomanBold> :size<14> :align<center>:
     =end pdf-config
 
-But that project is for another day--Santa's archivist Elves are happy for now!
+But that project is for another day—Santa's archivist Elves are happy for now!
 
 The final product of a real-world test of the Markdown-to-PDF work flow is a present from Santa to all the Raku-using folks around the world: a PDF version of a combined version of the two-part article from Tony O'Dell (AKA @tony-o) for creating an Apache website with Jonathon's Raku `Cro` libraries!
 
@@ -121,4 +121,6 @@ Footnotes
 1. *A Christmas Carol*, a short story by Charles Dickens (1812-1870), a well-known and popular Victorian author whose many works include *The Pickwick Papers*, *Oliver Twist*, *David Copperfield*, *Bleak House*, *Great Expectations*, and *A Tale of Two Cities*.
 
 2. Code used in this article is available at [raku-advent-extras](https://github.com/tbrowder/Raku-Advent/blob/master/advent2022/code)
+
+3. See the author's module-in-work [PDF::Combiner](https://github.com/tbrowder/PDF-Combiner). File an issue if would like use it and what features you would like to see added.
 
