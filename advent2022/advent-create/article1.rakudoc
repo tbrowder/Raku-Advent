@@ -51,7 +51,7 @@ which can only center text through use of inserted html code.)
 But back to the immediate situation: getting
 Markdown transformed to PDF.
 
-The first step is made possible through use of Anton Antonov's
+The first step is made possible through use of I<Anton Antonov>'s
 B<Markdown::Grammar:ver<0.4.0>> module.  The code for that is shown
 here:
 
@@ -70,7 +70,7 @@ down into two major paths:
 =item2 Transform PostScript to PDF (ps2pdf)
 
 Santa's IT group decided, given the current state of Raku modules, one
-of the easiest ways is to use David Warring's module B<Pod::Lite> and
+of the easiest ways is to use I<David Warring>'s module B<Pod::Lite> and
 his very new module B<Pod::To:PDF::Lite> for the direct transformation.
 That module has encapsulated the huge, low-level collection
 of PDF utility routines into an easier-to-use interface to get
@@ -83,7 +83,7 @@ Raku tree-like sructure).  That is easy if you're calling it inside a
 Raku program, but not if you're trying to access it from another
 program or module. Thus comes a new Raku module to the rescue. The
 clever algorithm that makes that possible is due to the Raku expert
-Vadim Belman (AKA @vrurg), and it has been extracted for easy use into
+I<Vadim Belman> (AKA @vrurg), and it has been extracted for easy use into
 a new module B<RakupodObject>.
 
 So, using those three modules, we get the following code:
@@ -172,8 +172,10 @@ archivist Elves are happy for now!
 The final product of a real-world test of the Markdown-to-PDF
 work flow is a present from Santa to all the Raku-using folks
 around the world: a PDF version of a combined version of the 
-two-part article from Tony O'Dell (AKA @tony-o)
-for creating an Apache website with Jonathon's Raku C<Cro> libraries!
+two-part article from I<Tony O'Dell> (AKA @tony-o)
+for creating an Apache website with the
+Raku C<Cro> libraries
+of I<Jonathan Worthington> (AKA @jnthn)!
 
 Santa's 2022 PDF present to you: E<0x1F380> B<[An-Apache-Cro-Web-Server-Recipe.pdf]> E<0x1F380>
 
