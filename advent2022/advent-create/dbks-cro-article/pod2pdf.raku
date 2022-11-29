@@ -168,6 +168,7 @@ if $podfil.IO.r {
     }
 
     $pdf.save-as: $pdffil;
+    unlink $pdf-tmp unless $debug;
 
     say "See output pdf file: $pdffil";
     exit;

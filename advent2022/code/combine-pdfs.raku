@@ -142,28 +142,25 @@ my $centerx    = 4.25*72;
 
 # manipulate the PDF some more
 my $tot-pages = 0;
-
 # add a cover for the collection
 my PDF::Lite::Page $page = $pdf.add-page;
 my $font  = $pdf.core-font(:family<Times-RomanBold>);
 my $font2 = $pdf.core-font(:family<Times-Roman>);
 # make this a sub: sub make-cover-page(PDF::Lite::Page $page, |c) is export
+
 $page.text: -> $txt {
     my ($text, $baseline);
     $baseline = 7*72;
     $txt.font = $font, 16;
-
     $text = $new-title;
     $txt.text-position = 0, $baseline; # baseline height is determined here
     # output aligned text
     $txt.say: $text, :align<center>, :position[$centerx];
-
     $txt.font = $font2, 14;
     $baseline -= 60;
     $txt.text-position = 0, $baseline; # baseline height is determined here
     $txt.say: "by", :align<center>, :position[$centerx];
     $baseline -= 30;
-
     my @text = "Tony O'Dell", "2022-09-23", "[https://deathbykeystroke.com]";
     for @text -> $text {
         $baseline -= 20;
@@ -174,7 +171,6 @@ $page.text: -> $txt {
 
 for @pdf-objs.kv -> $i, $pdf-obj {
     my $part = $i+1;
-
     # add a cover for part $part
     $page = $pdf.add-page;
     $page.text: -> $txt {
@@ -185,6 +181,7 @@ for @pdf-objs.kv -> $i, $pdf-obj {
         $txt.say: $text, :align<center>, :position[$centerx];
     }
 
+    # add the docs pages the new, combined doc
     my $pc = $pdf-obj.page-count;
     say "Input doc $part: $pc pages";
     $tot-pages += $pc;
