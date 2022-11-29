@@ -13,3 +13,13 @@ if not @*ARGS {
 
 my $res = cmd $cmd;
 say $res.out;
+
+my @html = (slurp $out).lines;
+my $html = "";
+for @html {
+    $html ~= $_;
+}
+
+my $hout = "artlicle-one-line.html";
+spurt $hout, $html;
+say "See single line file: $hout";
