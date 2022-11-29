@@ -19,7 +19,7 @@ Other non-Raku converters include [Pandoc](https://pandoc.org) and [Sphinx](http
 
 But back to the immediate situation: getting Markdown transformed to PDF.
 
-The first step is made possible through use of Anton Antonov's **Markdown::Grammar:ver<0.4.0>** module. The code for that is shown here:
+The first step is made possible through use of *Anton Antonov*'s **Markdown::Grammar:ver<0.4.0>** module. The code for that is shown here:
 
 ```raku
 use Markdown::Grammar:ver<0.4.0>;
@@ -36,9 +36,9 @@ The second step is Rakupod to PDF, but that step can be further broken down into
 
     * Transform PostScript to PDF (ps2pdf)
 
-Santa's IT group decided, given the current state of Raku modules, one of the easiest ways is to use David Warring's module **Pod::Lite** and his very new module **Pod::To:PDF::Lite** for the direct transformation. That module has encapsulated the huge, low-level collection of PDF utility routines into an easier-to-use interface to get typesetting quality output. (Note David is actively improving the module, so keep an eye out for updates.)
+Santa's IT group decided, given the current state of Raku modules, one of the easiest ways is to use *David Warring*'s module **Pod::Lite** and his very new module **Pod::To:PDF::Lite** for the direct transformation. That module has encapsulated the huge, low-level collection of PDF utility routines into an easier-to-use interface to get typesetting quality output. (Note David is actively improving the module, so keep an eye out for updates.)
 
-But that route has a bump in the road: `PDF::Lite` requires the user to provide the `$=pod` object (technically it is the root node of a Raku tree-like sructure). That is easy if you're calling it inside a Raku program, but not if you're trying to access it from another program or module. Thus comes a new Raku module to the rescue. The clever algorithm that makes that possible is due to the Raku expert Vadim Belman (AKA @vrurg), and it has been extracted for easy use into a new module **RakupodObject**.
+But that route has a bump in the road: `PDF::Lite` requires the user to provide the `$=pod` object (technically it is the root node of a Raku tree-like sructure). That is easy if you're calling it inside a Raku program, but not if you're trying to access it from another program or module. Thus comes a new Raku module to the rescue. The clever algorithm that makes that possible is due to the Raku expert *Vadim Belman* (AKA @vrurg), and it has been extracted for easy use into a new module **RakupodObject**.
 
 So, using those three modules, we get the following code:
 
@@ -102,7 +102,7 @@ Thanks to Raku developers we finally have a direct and robust way to convert com
 
 But that project is for another day—Santa's archivist Elves are happy for now!
 
-The final product of a real-world test of the Markdown-to-PDF work flow is a present from Santa to all the Raku-using folks around the world: a PDF version of a combined version of the two-part article from Tony O'Dell (AKA @tony-o) for creating an Apache website with Jonathon's Raku `Cro` libraries!
+The final product of a real-world test of the Markdown-to-PDF work flow is a present from Santa to all the Raku-using folks around the world: a PDF version of a combined version of the two-part article from *Tony O'Dell* (AKA @tony-o) for creating an Apache website with the Raku `Cro` libraries of *Jonathan Worthington* (AKA @jnthn)!
 
 Santa's 2022 PDF present to you: 🎀 **[An-Apache-Cro-Web-Server-Recipe.pdf]** 🎀
 
