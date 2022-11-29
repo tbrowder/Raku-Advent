@@ -118,7 +118,7 @@ if $podfil.IO.r {
         :$height, :$width, :$margin, :$page-numbers; #, :@fonts;
 
     my $pdf-tmp = "pdf-tmp.pdf";
-    $pdf.save-as: "pdf-tmp.pdf";
+    $pdf.save-as: $pdf-tmp.pdf;
 
     # final file name: $pdffil;
 
