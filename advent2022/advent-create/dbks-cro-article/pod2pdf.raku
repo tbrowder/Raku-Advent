@@ -90,6 +90,12 @@ for @*ARGS {
 }
 
 die "FATAL: '$podfil' is not a valid file" if not $podfil.IO.r;
+
+# title of output pdf
+my $new-doc   = "An-Apache-Cro-Web-Server.pdf";
+# title on cover
+my $new-title = "An Apache/CRO Web Server";
+
 if $podfil.IO.r {
     my $pdffil = $podfil;
     $pdffil ~~ s/'.pod' $/.pdf/;
@@ -111,7 +117,58 @@ if $podfil.IO.r {
     my PDF::Lite $pdf = pod2pdf $pod-obj,
         :$height, :$width, :$margin, :$page-numbers; #, :@fonts;
 
+    my $pdf-tmp = "pdf-tmp.pdf";
+    $pdf.save-as: "pdf-tmp.pdf";
+
+    # final file name: $pdffil;
+
+    # add a cover page
+    # do we need to specify 'media-box'?
+    $pdf = PDF::Lite.new;
+    $pdf.media-box = 'Letter';
+    my $centerx    = 4.25*72;
+
+    # manipulate the PDF some more
+    my $tot-pages = 0;
+    # add a cover for the collection
+    my PDF::Lite::Page $page = $pdf.add-page;
+    my $font  = $pdf.core-font(:family<Times-RomanBold>);
+    my $font2 = $pdf.core-font(:family<Times-Roman>);
+    # make this a sub: sub make-cover-page(PDF::Lite::Page $page, |c) is export
+
+    $page.text: -> $txt {
+        my ($text, $baseline);
+        $baseline = 7*72;
+        $txt.font = $font, 16;
+        $text = $new-title;
+        $txt.text-position = 0, $baseline; # baseline height is determined here
+        # output aligned text
+        $txt.say: $text, :align<center>, :position[$centerx];
+        $txt.font = $font2, 14;
+        $baseline -= 60;
+        $txt.text-position = 0, $baseline; # baseline height is determined here
+        $txt.say: "by", :align<center>, :position[$centerx];
+        $baseline -= 30;
+        my @text = "Tony O'Dell", "2022-09-23", "[https://deathbykeystroke.com]";
+        for @text -> $text {
+            $baseline -= 20;
+            $txt.text-position = 0, $baseline; # baseline height is determined here
+            $txt.say: $text, :align<center>, :position[$centerx];
+        }
+
+        # add the original doc's pages to the new, combined doc
+        my $pdf-obj = PDF::Lite.open: $pdf-tmp;
+
+        my $pc = $pdf-obj.page-count;
+        say "Input doc $pdf-tmp: $pc pages";
+        $tot-pages += $pc;
+        for 1..$pc -> $page-num {
+            $pdf.add-page: $pdf-obj.page($page-num);
+        }
+    }
+
     $pdf.save-as: $pdffil;
+
     say "See output pdf file: $pdffil";
     exit;
 }
