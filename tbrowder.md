@@ -27,17 +27,13 @@ He solved the bootstrap problem by using a special path setup so the new module 
 
 That solution was achieved with much trial and error on a new host with freshly installed Debian 12 (Bookworm), plus lots of help from fellow Debian users, and a slightly outdated Debian online document: [https://wiki.debian.org/EnvironmentVariables](https://wiki.debian.org/EnvironmentVariables):
 
-The latest set of files for a GNU/Linux system consist of:
+The latest set of Rakudo binary files for a GNU/Linux system consist of:
 
-<table class="pod-table">
-<caption>Latest Rakudo binary files for GNU/Linux</caption>
-<thead><tr>
-<th>File</th> <th>Size</th>
-</tr></thead>
-<tbody>
-<tr> <td>rakudo-moar-2023.10-01-linux-x86_64-gcc.tar.gz</td> <td>19.50 MB</td> </tr> <tr> <td>rakudo-moar-2023.10-01-linux-x86_64-gcc.tar.gz.asc</td> <td>228.00 B</td> </tr> <tr> <td>rakudo-moar-2023.10-01-linux-x86_64-gcc.tar.gz.checksums.txt</td> <td>1.02 KB</td> </tr>
-</tbody>
-</table>
+| File                                                         | Size     |
+| ------------------------------------------------------------ | -------- |
+| rakudo-moar-2023.10-01-linux-x86_64-gcc.tar.gz               | 19.50 MB |
+| rakudo-moar-2023.10-01-linux-x86_64-gcc.tar.gz.asc           | 228.00 B |
+| rakudo-moar-2023.10-01-linux-x86_64-gcc.tar.gz.checksums.txt | 1.02 KB  |
 
 They are downloaded and checked, then unpacked into directory `/opt/rakudo`. The paths required to use the installed binaries are `/opt/rakudo/bin` and `/opt/rakudo/share/perl6/site/bin`.
 
@@ -47,7 +43,7 @@ The installation script sets the standard path to put paths before the standard 
     PATH=/opt/rakudo/bin:/opt/rakudo/share/perl6/site/bin:\
     /usr/local/bin:/usr/bin:/bin:/usr/local/games:/usr/games
 
-Note the path finds the newly installed executables **before** the system's since those are under directory `/usr/bin`. Eli solved the bootstrap problem by putting this as the *sheban* line in the installation script:
+Note the path finds the newly installed executables **before** the system's since those are under directory `/usr/bin`. Eli solved the bootstrap problem by putting this as the *shebang* line in the installation script:
 
     #!/usr/bin/raku
 
@@ -81,4 +77,3 @@ Footnotes
 ---------
 
 1. *A Christmas Carol*, a short story by Charles Dickens (1812-1870), a well-known and popular Victorian author whose many works include *The Pickwick Papers*, *Oliver Twist*, *David Copperfield*, *Bleak House*, *Great Expectations*, and *A Tale of Two Cities*.
-
