@@ -17,7 +17,7 @@ But, when it was announced it would not keep up with Debian versions after the e
 Inspiration and perspiration
 ----------------------------
 
-After considering methods published on [https://rakudo.org](https://rakudo.org), he decided the binary downloads looked to be the easiest. An archive of code compiled for the desired system, accompanied by an identifying Sha256 hash and signed by one of the holders of the public keys published on the site, unpacked into a standard directory should be possible with Raku alone without other modules than the one he would create.
+After considering methods published on [https://rakudo.org](https://rakudo.org), he decided the binary downloads looked to be the easiest. An archive of code compiled for the desired system, accompanied by an identifying SHA-256 hash and signed by one of the holders of the public keys published on the site, unpacked into a standard directory should be possible with Raku alone without other modules than the one he would create.
 
 With the tantalizing smell of figgy pudding coming from the mess hall, he started to think deep thoughts while doing his regular duties. Finally, eureka! Why not use the system Raku to bootstrap a current Raku--genius! TODO get the  value for the em dash, ensure it converts to Markdown ok
 
