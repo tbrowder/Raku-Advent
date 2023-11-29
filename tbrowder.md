@@ -23,7 +23,7 @@ After considering methods published on [https://rakudo.org](https://rakudo.org),
 
 With the tantalizing smell of figgy pudding coming from the mess hall, he started to think deep thoughts while doing his regular duties. Finally, eureka! Why not use the Debian system Raku to bootstrap a current Raku—genius! 
 
-Eagerly he began to gobble pudding while coding.... After too much pudding and many code iterations, mistakes, and going down rabbit holes, and with help from fellow Debianites on the Debian users mailing list, he came up with his shiny new Raku module distribution: **RakudoBin** (not yet published, but available online at [https://github.com/tbrowder/RakudoBin](https://github.com/tbrowder/RakudoBin).
+Eagerly he began to gobble pudding while coding.... After too much pudding and many code iterations, mistakes, and going down rabbit holes, and with help from fellow Debianites on the Debian users mailing list, he came up with his shiny new Raku module distribution: **RakudoBin** (not yet published, but available online at [https://github.com/tbrowder/RakudoBin](https://github.com/tbrowder/RakudoBin)).
 
 He solved the bootstrap problem by using a special path setup so the new module's installation script could use the system Raku while other existing or new Raku programs would have the latest Raku first in the default user PATH. Because of the lengths of the paths defined in the actual host system, the paths are represented here by an alias, `[pathX]`, where 'X' is the path segment:
 
@@ -40,7 +40,7 @@ The final system path for all users is established by creating the following sys
     $ cat /etc/profile
     pathA:pathB:pathC
 
-Standard new user files in `/etc/skel` are also modified accordingly. Missing files are also added to correct the long-standing lack of a reliable graphical login solution for path setting, at least for the Mate deskstop:
+Standard new user files in `/etc/skel` are okay as they are. But a missing file is added to correct the long-standing lack of a reliable graphical login solution for path setting, at least for the Mate deskstop:
 
     # existing files NOT modified:
     /etc/skel/.bash_logout
@@ -48,7 +48,7 @@ Standard new user files in `/etc/skel` are also modified accordingly. Missing fi
     /etc/skel/.profile
     # added, not Debian standard, solves graphical
     #   login path setting problem:
-    $ cat /etc/skel/.xsessionrc
+    $ cp /etc/skel/.profile /etc/skel/.xsessionrc
 
 That solution was achieved with much trial and error on a new host with freshly installed Debian 12 (Bookworm), plus lots of help from fellow Debian users, and a slightly outdated Debian online document: [https://wiki.debian.org/EnvironmentVariables](https://wiki.debian.org/EnvironmentVariables):
 
@@ -85,7 +85,11 @@ shell "curl -1sLf https://path/file -o /localpath/file";
 If the file doesn't exist, the curl command throws an error. If we can trap the error, we can say the file doesn't exist. Thanks to the help of Nick [no, not Santa, IRC #raku's Nick Logan, aka @ugexe]), we can do that easily with this simple line in a `check-https` sub returning a `Bool`:
 
 ```raku
-try { so quietly shell "curl -1sLf https://path/file -o /localpath/file" } // False;
+sub check-https("https://path/file" --> Bool) {
+  try {
+    so quietly shell "curl -1sLf https://path/file -o /localpath/file"
+  } // False
+}
 ```
 
 Here's a link for some help for a more general method for future improvements to check a partial download with large files: [https://www.tehhayley.com/blog/2012/partial-http-downloads-with-curl/](https://www.tehhayley.com/blog/2012/partial-http-downloads-with-curl/).
