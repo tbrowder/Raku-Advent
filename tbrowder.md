@@ -56,9 +56,9 @@ The latest set of Rakudo binary files for a GNU/Linux system consist of:
 
 | File                                                         | Size     |
 | ------------------------------------------------------------ | -------- |
-| rakudo-moar-2023.10-01-linux-x86_64-gcc.tar.gz               | 19.50 MB |
-| rakudo-moar-2023.10-01-linux-x86_64-gcc.tar.gz.asc           | 228.00 B |
-| rakudo-moar-2023.10-01-linux-x86_64-gcc.tar.gz.checksums.txt | 1.02 KB  |
+| rakudo-moar-2023.11-01-linux-x86_64-gcc.tar.gz               | 19.72 MB |
+| rakudo-moar-2023.11-01-linux-x86_64-gcc.tar.gz.asc           | 228.00 B |
+| rakudo-moar-2023.11-01-linux-x86_64-gcc.tar.gz.checksums.txt | 1.02 KB  |
 
 They are downloaded and checked for hash validity, then unpacked into directory `/opt/rakudo`. The paths required to use the installed binaries are `/opt/rakudo/bin` and `/opt/rakudo/share/perl6/site/bin`.
 
