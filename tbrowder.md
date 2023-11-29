@@ -99,7 +99,7 @@ The installation script, by default, carefully asks for conrirmation before proc
 Party time
 ----------
 
-In summary, system administrators who want their stable Debian systems while having their Raku version be the latest will have an easy-to-use way to quickly convert a standard Debian installation into a standard Raku host with common paths for all new users.
+In summary, module **RakudoBin** will give system administrators a practical way to (1) have a stable Debian system and (2) upgrade their Raku version to the latest. The module will also provide an easy way to quickly convert a standard Debian installation into a standard Raku host with common paths for all new users.
 
 Santa's Epilogue
 ----------------
