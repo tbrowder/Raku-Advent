@@ -1,10 +1,12 @@
 Rocking Raku Meets Stodgy Debian
 ================================
 
+A unique method for installing Raku on Debian hosts.
+
 Rumbling in the rack room
 -------------------------
 
-Santa's IT department was now fully invested in using Raku and it was paying off in increased programmer efficiency as well as toy output. But old elf Eli, a system administrator, was grumbling to himself that it was a lot of work keeping the many hosts (mostly GNU/Linux, for great savings on hardware) with many different Linux flavors current given the rapid development of Raku.
+Santa's IT department was now fully invested in using Raku, and it was paying off in increased programmer efficiency as well as toy output. But old elf Eli, a system administrator, was grumbling to himself that it was a lot of work keeping the many hosts (mostly GNU/Linux, for great savings on hardware) with many different Linux flavors current given the rapid development of Raku.
 
 He had been trying to convince his boss to gradually convert all systems to Debian, but his boss was reluctant to do so because of a conundrum: Debian has a long development cycle (good for IT stability) but Raku has a short development cycle (roughly monthly). Systems other than Debian tended to keep Raku more current and typically stayed within 12 months of the latest Raku. But that effort often resulted in more OS maintenance than Debian required. (Note the proliferation of Linux flavors had come about due to flashy young elves, freshly out of grad school, who favored the OS-of-the-month they used in school. To Eli's chagrin, Santa was a softy and too kind to interfere.)
 
@@ -17,13 +19,13 @@ But, when it was announced it would not keep up with Debian versions after the e
 Inspiration and perspiration
 ----------------------------
 
-After considering methods published on [https://rakudo.org](https://rakudo.org), he decided the binary downloads looked to be the easiest. An archive of code compiled for the desired system, accompanied by an identifying SHA-256 hash and signed by one of the holders of the public keys published on the site, unpacked into a standard directory should be possible with Raku alone without other modules than the one he would create.
+After considering methods published on [https://rakudo.org](https://rakudo.org), he decided the binary downloads looked to be the easiest. An archive of code compiled for the desired system, accompanied by an identifying SHA-256 hash and signed by one of the holders of the public keys published on the site, and unpacked into a standard directory should be possible with Raku alone without other modules than the one he would create.
 
-With the tantalizing smell of figgy pudding coming from the mess hall, he started to think deep thoughts while doing his regular duties. Finally, eureka! Why not use the system Raku to bootstrap a current Raku—genius! 
+With the tantalizing smell of figgy pudding coming from the mess hall, he started to think deep thoughts while doing his regular duties. Finally, eureka! Why not use the Debian system Raku to bootstrap a current Raku—genius! 
 
-Eagerly he began to gobble pudding while coding.... After too much pudding and many code iterations, mistakes, and going down rabbit holes, and with help from fellow Debianites on the Debian users mailing list, he came up with his shiny new Raku module distribution: **RakudoBin**.
+Eagerly he began to gobble pudding while coding.... After too much pudding and many code iterations, mistakes, and going down rabbit holes, and with help from fellow Debianites on the Debian users mailing list, he came up with his shiny new Raku module distribution: **RakudoBin** (not yet published, but available online at [https://github.com/tbrowder/RakudoBin](https://github.com/tbrowder/RakudoBin).
 
-He solved the bootstrap problem by using a special path setup so the new module could call the package Raku as well as the updated Raku. Because of the lengths of the paths defined in the actual host system, the paths are represented here by `[pathX]` where 'X' is the path segment:
+He solved the bootstrap problem by using a special path setup so the new module's installation script could use the system Raku while other existing or new Raku programs would have the latest Raku first in the default user PATH. Because of the lengths of the paths defined in the actual host system, the paths are represented here by an alias, `[pathX]`, where 'X' is the path segment:
 
   * pathA /opt/rakudo/bin:/opt/rakudo/share/perl6/site/bin
 
@@ -40,9 +42,11 @@ The final system path for all users is established by creating the following sys
 
 Standard new user files in `/etc/skel` are also modified accordingly. Missing files are also added to correct the long-standing lack of a reliable graphical login solution for path setting, at least for the Mate deskstop:
 
-    $ cat /etc/skel/.?
-    $ cat /etc/skel/.?
-    # added, not Debian standard, solves graphical 
+    # existing files NOT modified:
+    /etc/skel/.bash_logout
+    /etc/skel/.bashrc
+    /etc/skel/.profile
+    # added, not Debian standard, solves graphical
     #   login path setting problem:
     $ cat /etc/skel/.xsessionrc
 
@@ -56,7 +60,7 @@ The latest set of Rakudo binary files for a GNU/Linux system consist of:
 | rakudo-moar-2023.10-01-linux-x86_64-gcc.tar.gz.asc           | 228.00 B |
 | rakudo-moar-2023.10-01-linux-x86_64-gcc.tar.gz.checksums.txt | 1.02 KB  |
 
-They are downloaded and checked, then unpacked into directory `/opt/rakudo`. The paths required to use the installed binaries are `/opt/rakudo/bin` and `/opt/rakudo/share/perl6/site/bin`.
+They are downloaded and checked for hash validity, then unpacked into directory `/opt/rakudo`. The paths required to use the installed binaries are `/opt/rakudo/bin` and `/opt/rakudo/share/perl6/site/bin`.
 
 The installation script sets the standard path to put the new paths before the standard paths as shown below.
 
@@ -85,6 +89,8 @@ try { so quietly shell "curl -1sLf https://path/file -o /localpath/file" } // Fa
 ```
 
 Here's a link for some help for a more general method for future improvements to check a partial download with large files: [https://www.tehhayley.com/blog/2012/partial-http-downloads-with-curl/](https://www.tehhayley.com/blog/2012/partial-http-downloads-with-curl/).
+
+The installation script, by default, carefully asks for conrirmation before proceeding with various system-modifying parts. Using the `quiet` option assumes all is approved and no further permissions are requested.
 
 Party time
 ----------
