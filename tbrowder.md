@@ -99,7 +99,7 @@ The installation script, by default, carefully asks for conrirmation before proc
 Party time
 ----------
 
-In summary, system administrators who want their stable Debian systems while having their Raku version be the latest have an easy-to-use way to quickly convert a standard Debian installation into a standard Raku host with common paths for all new users.
+In summary, system administrators who want their stable Debian systems while having their Raku version be the latest will have an easy-to-use way to quickly convert a standard Debian installation into a standard Raku host with common paths for all new users.
 
 Santa's Epilogue
 ----------------
